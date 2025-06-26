@@ -17,7 +17,7 @@ export type {
 
 // 重新导出工具函数
 export { 
-  designTokens, 
+  theme, 
   styleUtils, 
   combineClasses 
 } from '@ui-lib/shared'; 

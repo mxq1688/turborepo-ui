@@ -11,6 +11,16 @@
       "persistent": true,
       "dependsOn": ["^build"]
     },
+    "dev:react": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "dev:vue": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },
