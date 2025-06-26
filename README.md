@@ -1,15 +1,18 @@
-# UI 组件库
+# 多框架 UI 组件库
 
-一个使用 Turborepo 构建的现代 React UI 组件库，包含可复用的组件和配置。
+一个使用 Turborepo 构建的现代化多框架 UI 组件库，**同时支持 React 和 Vue**，包含可复用的组件和配置。
 
-## 项目结构
+## 🏗️ 项目架构
 
 ```
 ui-components-library/
 ├── apps/
-│   └── docs/                 # 组件文档和示例应用
+│   ├── docs-react/           # React 组件文档应用 (Next.js)
+│   └── docs-vue/             # Vue 组件文档应用 (Vite + Vue 3)
 ├── packages/
-│   ├── ui/                   # UI 组件库
+│   ├── ui-shared/            # 共享设计系统、样式和类型
+│   ├── ui-react/             # React 组件库
+│   ├── ui-vue/               # Vue 组件库  
 │   ├── tsconfig/             # 共享 TypeScript 配置
 │   └── eslint-config/        # 共享 ESLint 配置
 ├── package.json              # 根 package.json
@@ -17,16 +20,17 @@ ui-components-library/
 └── README.md
 ```
 
-## 功能特性
+## ✨ 功能特性
 
 - 🏗️ **Turborepo**: 高性能的 monorepo 构建系统
-- ⚡ **TypeScript**: 完整的类型支持
-- 🎨 **Tailwind CSS**: 现代的样式系统
-- 📦 **组件库**: 可复用的 React 组件
+- ⚛️ **React 支持**: 完整的 React + TypeScript 组件库
+- 🟢 **Vue 支持**: 完整的 Vue 3 + Composition API 组件库
+- 🎨 **统一设计系统**: 共享的设计令牌和样式规范
+- 📦 **可复用组件**: Button, Card, Input 等基础组件
 - 🔧 **开发工具**: ESLint, Prettier, TypeScript 配置
-- 📖 **文档**: 组件示例和使用指南
+- 📖 **双端文档**: React 和 Vue 分别的组件示例和使用指南
 
-## 快速开始
+## 🚀 快速开始
 
 ### 安装依赖
 
@@ -36,17 +40,18 @@ npm install
 
 ### 开发模式
 
-启动开发环境：
+启动所有开发环境：
 
 ```bash
 npm run dev
 ```
 
 这将启动：
-- 组件库的构建监听 (`packages/ui`)
-- 文档应用的开发服务器 (`apps/docs`)
-
-访问 http://localhost:3000 查看组件文档和示例。
+- 共享包的构建监听 (`packages/ui-shared`)
+- React 组件库的构建监听 (`packages/ui-react`)
+- Vue 组件库的构建监听 (`packages/ui-vue`)
+- React 文档应用的开发服务器 (`apps/docs-react`) - http://localhost:3000
+- Vue 文档应用的开发服务器 (`apps/docs-vue`) - http://localhost:3001
 
 ### 构建
 
@@ -56,146 +61,211 @@ npm run dev
 npm run build
 ```
 
-### 代码检查
-
-运行 ESLint：
+### 代码检查和格式化
 
 ```bash
-npm run lint
+npm run lint        # ESLint 检查
+npm run type-check  # TypeScript 类型检查
+npm run format      # 代码格式化
 ```
 
-运行 TypeScript 类型检查：
+## 📦 可用组件
 
-```bash
-npm run type-check
-```
-
-格式化代码：
-
-```bash
-npm run format
-```
-
-## 可用组件
-
-### Button (按钮)
+### React 使用方式
 
 ```tsx
-import { Button } from '@ui-lib/ui';
+import { Button, Card, CardHeader, CardTitle, CardContent, Input } from '@ui-lib/ui-react';
 
-<Button variant="primary" size="md">
-  点击我
-</Button>
+function App() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>React 卡片</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Input label="用户名" placeholder="请输入用户名" />
+        <Button variant="primary">提交</Button>
+      </CardContent>
+    </Card>
+  );
+}
 ```
+
+### Vue 使用方式
+
+```vue
+<template>
+  <Card>
+    <CardHeader>
+      <CardTitle>Vue 卡片</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <Input v-model="username" label="用户名" placeholder="请输入用户名" />
+      <Button variant="primary" @click="submit">提交</Button>
+    </CardContent>
+  </Card>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input } from '@ui-lib/ui-vue'
+
+const username = ref('')
+
+function submit() {
+  console.log('提交:', username.value)
+}
+</script>
+```
+
+## 🎯 组件 API
+
+### Button 组件
 
 **属性:**
 - `variant`: 'primary' | 'secondary' | 'outline' | 'ghost'
 - `size`: 'sm' | 'md' | 'lg'
 
-### Card (卡片)
-
+**React:**
 ```tsx
-import { Card, CardHeader, CardTitle, CardContent } from '@ui-lib/ui';
-
-<Card>
-  <CardHeader>
-    <CardTitle>标题</CardTitle>
-  </CardHeader>
-  <CardContent>
-    内容区域
-  </CardContent>
-</Card>
+<Button variant="primary" size="md" onClick={() => {}}>
+  点击我
+</Button>
 ```
 
-### Input (输入框)
-
-```tsx
-import { Input } from '@ui-lib/ui';
-
-<Input
-  label="用户名"
-  placeholder="请输入用户名"
-  error="错误信息"
-/>
+**Vue:**
+```vue
+<Button variant="primary" size="md" @click="handleClick">
+  点击我
+</Button>
 ```
+
+### Input 组件
 
 **属性:**
 - `label`: 输入框标签
 - `error`: 错误信息
-- 继承所有原生 input 属性
+- `type`: 输入类型 (text, email, password 等)
+- `placeholder`: 占位符
 
-## 在其他项目中使用
-
-1. 构建组件库：
-```bash
-cd packages/ui
-npm run build
-```
-
-2. 在其他项目中安装：
-```bash
-npm install file:path/to/packages/ui
-```
-
-3. 在项目中使用：
+**React:**
 ```tsx
-import { Button, Card, Input } from '@ui-lib/ui';
-
-function App() {
-  return (
-    <div>
-      <Card>
-        <CardContent>
-          <Input label="邮箱" type="email" />
-          <Button variant="primary">提交</Button>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
+<Input
+  label="邮箱"
+  type="email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  error={emailError}
+/>
 ```
 
-## 开发指南
+**Vue:**
+```vue
+<Input
+  v-model="email"
+  label="邮箱"
+  type="email"
+  :error="emailError"
+/>
+```
+
+## 🔧 架构优势
+
+### 共享设计系统
+
+- **统一的设计令牌**: 颜色、间距、字体等在 `packages/ui-shared` 中定义
+- **一致的样式**: React 和 Vue 组件使用相同的 Tailwind CSS 类
+- **类型安全**: 共享的 TypeScript 类型定义
+
+### 独立的框架实现
+
+- **React 组件**: 使用 React 最佳实践 (forwardRef, 事件处理等)
+- **Vue 组件**: 使用 Vue 3 Composition API 和最佳实践
+- **框架特色**: 每个框架都能发挥其独特优势
+
+### 高效的开发体验
+
+- **Turborepo 增量构建**: 只构建变更的包
+- **热重载**: 两个文档应用都支持热重载
+- **类型检查**: 完整的 TypeScript 支持
+
+## 🚢 在其他项目中使用
+
+### React 项目
+
+```bash
+npm install @ui-lib/ui-react
+```
+
+### Vue 项目
+
+```bash
+npm install @ui-lib/ui-vue
+```
+
+### 通用样式 (可选)
+
+```bash
+npm install @ui-lib/ui-shared
+```
+
+## 🛠️ 开发指南
 
 ### 添加新组件
 
-1. 在 `packages/ui/src/components/` 中创建新组件文件
-2. 在 `packages/ui/src/index.ts` 中导出组件
-3. 在 `apps/docs/src/pages/index.tsx` 中添加使用示例
-
-### 配置说明
-
-- **TypeScript**: 配置在 `packages/tsconfig/` 中
-- **ESLint**: 配置在 `packages/eslint-config/` 中  
-- **构建**: 使用 `tsup` 进行组件库构建
-- **样式**: 使用 Tailwind CSS
+1. 在 `packages/ui-shared/src/` 中定义共享类型和样式
+2. 在 `packages/ui-react/src/components/` 中创建 React 版本
+3. 在 `packages/ui-vue/src/components/` 中创建 Vue 版本
+4. 在两个文档应用中添加使用示例
 
 ### 工作流
 
-1. 在 `packages/ui` 中开发组件
-2. 在 `apps/docs` 中测试和展示组件
-3. 使用 Turborepo 进行高效的增量构建
+1. 修改共享设计系统 → 两个框架同步更新
+2. 独立开发框架特定功能
+3. Turborepo 智能增量构建
+4. 双端文档实时预览
 
-## 脚本说明
+## 📊 技术栈
 
-- `npm run dev`: 启动开发环境
-- `npm run build`: 构建所有包
-- `npm run lint`: 代码检查
-- `npm run type-check`: TypeScript 类型检查
-- `npm run format`: 代码格式化
-- `npm run clean`: 清理构建文件
-
-## 技术栈
-
+**构建工具:**
 - [Turborepo](https://turbo.build/) - Monorepo 构建系统
-- [TypeScript](https://www.typescriptlang.org/) - 类型安全
-- [React](https://reactjs.org/) - UI 库
-- [Next.js](https://nextjs.org/) - 文档应用框架
-- [Tailwind CSS](https://tailwindcss.com/) - 样式框架
-- [tsup](https://tsup.egoist.dev/) - 构建工具
+- [tsup](https://tsup.egoist.dev/) - 组件库构建
+- [Vite](https://vitejs.dev/) - Vue 应用构建
+- [Next.js](https://nextjs.org/) - React 应用框架
+
+**框架和库:**
+- [React](https://reactjs.org/) + TypeScript
+- [Vue 3](https://vuejs.org/) + Composition API + TypeScript
+- [Tailwind CSS](https://tailwindcss.com/) - 统一样式系统
+
+**工具链:**
 - [ESLint](https://eslint.org/) - 代码检查
 - [Prettier](https://prettier.io/) - 代码格式化
+- [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces) - 包管理
 
-## 许可证
+## 🎉 项目亮点
+
+1. **真正的多框架支持**: 不是简单的适配，而是为每个框架优化
+2. **统一的设计语言**: 共享设计系统确保一致性
+3. **独立的最佳实践**: 每个框架都遵循其最佳实践
+4. **开发体验优先**: 热重载、类型检查、增量构建
+5. **生产就绪**: 完整的构建、测试、发布流程
+
+这个架构使得团队可以：
+- 在 React 和 Vue 项目中使用相同的设计系统
+- 独立开发和维护各框架版本
+- 享受现代化的开发工具链
+- 保持代码的高质量和一致性
+
+## 📈 扩展计划
+
+- [ ] 添加更多组件 (Table, Modal, Form 等)
+- [ ] 主题系统和定制化
+- [ ] 单元测试覆盖
+- [ ] Storybook 集成
+- [ ] CI/CD 自动化
+- [ ] Angular 支持
+
+## 📄 许可证
 
 MIT 

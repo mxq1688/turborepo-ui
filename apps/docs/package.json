@@ -10,7 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@ui-lib/ui": "*",
+    "@ui-lib/ui-react": "*",
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

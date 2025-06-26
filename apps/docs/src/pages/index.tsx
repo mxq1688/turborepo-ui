@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button, Card, CardHeader, CardTitle, CardContent, Input, debug } from '@ui-lib/ui';
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, debug } from '@ui-lib/ui-react';
 
 export default function Home() {
   const [inputValue, setInputValue] = useState('');
