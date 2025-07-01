@@ -1,0 +1,222 @@
+import React, { createContext, useContext, useState, useEffect } from 'react'
+
+// 简化的主题配置类型
+interface SimpleThemeConfig {
+  colors: {
+    primary: Record<string, string>
+    gray: Record<string, string>
+    success: Record<string, string>
+    warning: Record<string, string>
+    error: Record<string, string>
+  }
+  borderRadius: Record<string, string>
+  spacing: Record<string, string>
+}
+
+// 默认主题配置
+const defaultTheme: SimpleThemeConfig = {
+  colors: {
+    primary: {
+      50: '#eff6ff',
+      100: '#dbeafe', 
+      200: '#bfdbfe',
+      300: '#93c5fd',
+      400: '#60a5fa',
+      500: '#3b82f6',
+      600: '#2563eb',
+      700: '#1d4ed8',
+      800: '#1e40af',
+      900: '#1e3a8a',
+    },
+    gray: {
+      50: '#f9fafb',
+      100: '#f3f4f6',
+      200: '#e5e7eb', 
+      300: '#d1d5db',
+      400: '#9ca3af',
+      500: '#6b7280',
+      600: '#4b5563',
+      700: '#374151',
+      800: '#1f2937',
+      900: '#111827',
+    },
+    success: {
+      50: '#ecfdf5',
+      100: '#d1fae5',
+      200: '#a7f3d0',
+      300: '#6ee7b7',
+      400: '#34d399',
+      500: '#10b981',
+      600: '#059669',
+      700: '#047857',
+      800: '#065f46',
+      900: '#064e3b',
+    },
+    warning: {
+      50: '#fffbeb',
+      100: '#fef3c7',
+      200: '#fde68a',
+      300: '#fcd34d',
+      400: '#fbbf24',
+      500: '#f59e0b',
+      600: '#d97706',
+      700: '#b45309',
+      800: '#92400e',
+      900: '#78350f',
+    },
+    error: {
+      50: '#fef2f2',
+      100: '#fee2e2',
+      200: '#fecaca',
+      300: '#fca5a5',
+      400: '#f87171',
+      500: '#ef4444',
+      600: '#dc2626',
+      700: '#b91c1c',
+      800: '#991b1b',
+      900: '#7f1d1d',
+    }
+  },
+  borderRadius: {
+    none: '0',
+    sm: '0.125rem',
+    default: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
+    xl: '0.75rem',
+    '2xl': '1rem',
+    '3xl': '1.5rem',
+    full: '9999px'
+  },
+  spacing: {
+    0: '0',
+    1: '0.25rem',
+    2: '0.5rem',
+    3: '0.75rem',
+    4: '1rem',
+    5: '1.25rem',
+    6: '1.5rem',
+    8: '2rem',
+    10: '2.5rem',
+    12: '3rem',
+    16: '4rem',
+    20: '5rem',
+    24: '6rem',
+    32: '8rem',
+    40: '10rem',
+    48: '12rem',
+    56: '14rem',
+    64: '16rem'
+  }
+}
+
+// 主题上下文接口
+interface ThemeContextType {
+  theme: SimpleThemeConfig
+  isDark: boolean
+  setTheme: (newTheme: Partial<SimpleThemeConfig>) => void
+  toggleDarkMode: () => void
+  setDarkMode: (isDark: boolean) => void
+  applyCSSVariables: () => void
+}
+
+// 创建主题上下文
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+
+// 主题提供者Props
+interface ThemeProviderProps {
+  children: React.ReactNode
+  initialTheme?: Partial<SimpleThemeConfig>
+}
+
+// 主题提供者组件
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({
+  children,
+  initialTheme = {}
+}) => {
+  const [theme, setThemeState] = useState<SimpleThemeConfig>({
+    ...defaultTheme,
+    ...initialTheme
+  })
+  const [isDark, setIsDark] = useState(false)
+
+  // 设置主题
+  const setTheme = (newTheme: Partial<SimpleThemeConfig>) => {
+    setThemeState(prev => ({
+      ...prev,
+      ...newTheme,
+      colors: { ...prev.colors, ...newTheme.colors }
+    }))
+  }
+
+  // 切换深色模式
+  const toggleDarkMode = () => {
+    setIsDark(prev => !prev)
+  }
+
+  // 设置深色模式
+  const setDarkMode = (darkMode: boolean) => {
+    setIsDark(darkMode)
+  }
+
+  // 应用CSS变量
+  const applyCSSVariables = () => {
+    const variables: Record<string, string> = {}
+    
+    // 颜色变量
+    Object.entries(theme.colors).forEach(([colorName, colorShades]) => {
+      Object.entries(colorShades).forEach(([shade, value]) => {
+        variables[`--color-${colorName}-${shade}`] = value
+      })
+    })
+
+    // 边框圆角变量
+    Object.entries(theme.borderRadius).forEach(([key, value]) => {
+      variables[`--border-radius-${key}`] = value
+    })
+
+    // 间距变量
+    Object.entries(theme.spacing).forEach(([key, value]) => {
+      variables[`--spacing-${key}`] = value
+    })
+
+    // 应用到根元素
+    Object.entries(variables).forEach(([property, value]) => {
+      document.documentElement.style.setProperty(property, value)
+    })
+  }
+
+  // 响应深色模式变化
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDark)
+  }, [isDark])
+
+  // 初始化时应用CSS变量
+  useEffect(() => {
+    applyCSSVariables()
+  }, [theme])
+
+  const value: ThemeContextType = {
+    theme,
+    isDark,
+    setTheme,
+    toggleDarkMode,
+    setDarkMode,
+    applyCSSVariables
+  }
+
+  return React.createElement(
+    ThemeContext.Provider,
+    { value },
+    children
+  )
+}
+
+// 使用主题的hook
+export const useTheme = (): ThemeContextType => {
+  const context = useContext(ThemeContext)
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider')
+  }
+  return context
+} 

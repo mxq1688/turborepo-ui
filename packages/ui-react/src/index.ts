@@ -12,6 +12,10 @@ export { Alert } from './components/Alert';
 export { Loading, FullscreenLoading } from './components/Loading';
 export { Tabs, TabPanel } from './components/Tabs';
 
+// 导出主题和国际化
+export { useTheme, ThemeProvider } from './hooks/useTheme';
+export { useI18n, I18nProvider } from './hooks/useI18n';
+
 export type { ButtonProps } from './components/Button';
 export type { CardProps } from './components/Card';
 export type { InputProps } from './components/Input';
@@ -25,6 +29,9 @@ export type { AvatarProps } from './components/Avatar';
 export type { AlertProps } from './components/Alert';
 export type { LoadingProps, FullscreenLoadingProps } from './components/Loading';
 export type { TabsProps, Tab, TabPanelProps } from './components/Tabs';
+
+// 导出主题和国际化类型
+export type { LocaleMessages, I18nConfig } from './hooks/useI18n';
 
 // 重新导出共享类型和工具
 export type { 
