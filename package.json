@@ -4,8 +4,10 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "dev:react": "turbo dev:react",
-    "dev:vue": "turbo dev:vue",
+    "dev:react": "turbo run dev --filter=@ui-lib/docs-react",
+    "dev:vue": "turbo run dev --filter=@ui-lib/docs-vue",
+    "dev:vitepress": "turbo run dev --filter=@ui-lib/docs-vitepress",
+    "dev:storybook": "turbo run dev --filter=@ui-lib/docs-storybook",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",

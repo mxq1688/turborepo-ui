@@ -9,7 +9,7 @@ import { computed } from 'vue'
 import { CardProps, styleUtils, combineClasses } from '@ui-lib/shared'
 
 // Props定义
-interface VueCardProps extends Omit<CardProps, 'children'> {}
+interface VueCardProps extends /* @vue-ignore */ Omit<CardProps, 'children'> {}
 
 const props = withDefaults(defineProps<VueCardProps>(), {})
 

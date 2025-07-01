@@ -104,24 +104,28 @@ const implementedComponents = reactive<ComponentItem[]>([
   { id: 'modal', name: 'Modal 对话框', description: '模态对话框组件' },
   { id: 'select', name: 'Select 选择器', description: '下拉选择器组件' },
   { id: 'checkbox', name: 'Checkbox 多选框', description: '多选框组件' },
+  { id: 'radio', name: 'Radio 单选框', description: '单选框组件' },
   { id: 'switch', name: 'Switch 开关', description: '开关组件' },
+  { id: 'tabs', name: 'Tabs 标签页', description: '选项卡切换组件' },
+  { id: 'table', name: 'Table 表格', description: '数据表格组件' },
   { id: 'badge', name: 'Badge 徽标', description: '徽标数字组件' },
   { id: 'avatar', name: 'Avatar 头像', description: '用户头像组件' },
   { id: 'alert', name: 'Alert 警告提示', description: '警告提示组件' },
   { id: 'loading', name: 'Loading 加载', description: '加载状态组件' },
+  { id: 'form', name: 'Form 表单', description: '表单组件与验证' },
+  { id: 'datepicker', name: 'DatePicker 日期选择', description: '日期选择器组件' },
+  { id: 'upload', name: 'Upload 上传', description: '文件上传组件' },
 ])
 
 // 规划中的组件
 const plannedComponents = reactive<ComponentItem[]>([
-  // 表单组件
-  { id: 'radio', name: 'Radio 单选框', description: '单选框' },
-  
-  // 数据展示
-  { id: 'table', name: 'Table 表格', description: '展示行列数据' },
-  
   // 导航组件
-  { id: 'tabs', name: 'Tabs 标签页', description: '选项卡切换组件' },
   { id: 'menu', name: 'Menu 导航菜单', description: '为页面和功能提供导航' },
+  { id: 'breadcrumb', name: 'Breadcrumb 面包屑', description: '页面导航路径' },
+  
+  // 反馈组件
+  { id: 'notification', name: 'Notification 通知', description: '全局通知提醒' },
+  { id: 'message', name: 'Message 消息', description: '操作反馈消息' },
 ])
 
 // 系统功能

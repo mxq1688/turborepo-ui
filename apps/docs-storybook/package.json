@@ -1,0 +1,36 @@
+{
+  "name": "@ui-lib/docs-storybook",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "preview": "storybook preview"
+  },
+  "dependencies": {
+    "@ui-lib/ui-react": "*",
+    "@ui-lib/ui-vue": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.0",
+    "@storybook/addon-interactions": "^7.6.0",
+    "@storybook/addon-links": "^7.6.0",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.6.0",
+    "@storybook/react": "^7.6.0",
+    "@storybook/react-vite": "^7.6.0",
+    "@storybook/test": "^7.6.0",
+    "@storybook/vue3": "^7.6.0",
+    "@storybook/vue3-vite": "^7.6.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.1.1",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "storybook": "^7.6.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0"
+  }
+} 

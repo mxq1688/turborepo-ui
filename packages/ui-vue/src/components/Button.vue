@@ -14,7 +14,7 @@ import { computed, ref } from 'vue'
 import { ButtonProps, styleUtils, combineClasses } from '@ui-lib/shared'
 
 // Props定义 - 使用共享类型
-interface VueButtonProps extends Omit<ButtonProps, 'children'> {}
+interface VueButtonProps extends /* @vue-ignore */ Omit<ButtonProps, 'children'> {}
 
 const props = withDefaults(defineProps<VueButtonProps>(), {
   variant: 'primary',

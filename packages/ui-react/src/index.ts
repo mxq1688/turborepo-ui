@@ -11,6 +11,10 @@ export { Avatar } from './components/Avatar';
 export { Alert } from './components/Alert';
 export { Loading, FullscreenLoading } from './components/Loading';
 export { Tabs, TabPanel } from './components/Tabs';
+export { Table } from './components/Table';
+export { default as Form, FormItem, FormInput, FormTextarea } from './components/Form';
+export { default as DatePicker } from './components/DatePicker';
+export { default as Upload } from './components/Upload';
 
 // 导出主题和国际化
 export { useTheme, ThemeProvider } from './hooks/useTheme';
@@ -29,6 +33,8 @@ export type { AvatarProps } from './components/Avatar';
 export type { AlertProps } from './components/Alert';
 export type { LoadingProps, FullscreenLoadingProps } from './components/Loading';
 export type { TabsProps, Tab, TabPanelProps } from './components/Tabs';
+export type { TableProps, TableColumn } from './components/Table';
+export type { FormProps, FormItemProps, FormRule } from './components/Form';
 
 // 导出主题和国际化类型
 export type { LocaleMessages, I18nConfig } from './hooks/useI18n';

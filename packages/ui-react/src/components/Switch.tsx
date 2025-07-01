@@ -34,7 +34,7 @@ export const Switch: React.FC<SwitchProps> = ({
     }
   };
 
-  const currentSize = sizeClasses[size];
+  const currentSize = sizeClasses[size] || sizeClasses.md;
 
   return (
     <label className="inline-flex items-center cursor-pointer">

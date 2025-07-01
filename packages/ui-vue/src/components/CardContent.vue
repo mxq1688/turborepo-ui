@@ -8,7 +8,7 @@
 import { computed } from 'vue'
 import { CardProps, styleUtils, combineClasses } from '@ui-lib/shared'
 
-interface VueCardContentProps extends Omit<CardProps, 'children'> {}
+interface VueCardContentProps extends /* @vue-ignore */ Omit<CardProps, 'children'> {}
 
 const props = withDefaults(defineProps<VueCardContentProps>(), {})
 

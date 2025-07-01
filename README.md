@@ -74,16 +74,51 @@ npm run format      # 代码格式化
 ### React 使用方式
 
 ```tsx
-import { Button, Card, CardHeader, CardTitle, CardContent, Input } from '@ui-lib/ui-react';
+import { 
+  Button, 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardContent, 
+  Input,
+  Radio,
+  RadioGroup,
+  Tabs,
+  Table
+} from '@ui-lib/ui-react';
 
 function App() {
+  const [selectedFramework, setSelectedFramework] = useState('react');
+  
+  const radioOptions = [
+    { value: 'react', label: 'React' },
+    { value: 'vue', label: 'Vue' },
+    { value: 'angular', label: 'Angular' }
+  ];
+
+  const tabs = [
+    { key: 'form', label: '表单', content: <MyFormComponent /> },
+    { key: 'table', label: '表格', content: <MyTableComponent /> }
+  ];
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>React 卡片</CardTitle>
+        <CardTitle>React 组件库示例</CardTitle>
       </CardHeader>
       <CardContent>
         <Input label="用户名" placeholder="请输入用户名" />
+        
+        <RadioGroup
+          options={radioOptions}
+          value={selectedFramework}
+          onChange={setSelectedFramework}
+          name="framework"
+          label="选择框架："
+        />
+        
+        <Tabs tabs={tabs} />
+        
         <Button variant="primary">提交</Button>
       </CardContent>
     </Card>
@@ -97,10 +132,22 @@ function App() {
 <template>
   <Card>
     <CardHeader>
-      <CardTitle>Vue 卡片</CardTitle>
+      <CardTitle>Vue 组件库示例</CardTitle>
     </CardHeader>
     <CardContent>
       <Input v-model="username" label="用户名" placeholder="请输入用户名" />
+      
+      <RadioGroup
+        v-model="selectedFramework"
+        :options="radioOptions"
+        name="framework"
+        label="选择框架："
+      />
+      
+      <Tabs v-model="activeTab" :tabs="tabs" />
+      
+      <Table :columns="columns" :dataSource="data" />
+      
       <Button variant="primary" @click="submit">提交</Button>
     </CardContent>
   </Card>
@@ -108,12 +155,45 @@ function App() {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Button, Card, CardHeader, CardTitle, CardContent, Input } from '@ui-lib/ui-vue'
+import { 
+  Button, 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardContent, 
+  Input,
+  RadioGroup,
+  Tabs,
+  Table
+} from '@ui-lib/ui-vue'
 
 const username = ref('')
+const selectedFramework = ref('vue')
+const activeTab = ref('info')
+
+const radioOptions = [
+  { value: 'react', label: 'React' },
+  { value: 'vue', label: 'Vue' },
+  { value: 'angular', label: 'Angular' }
+]
+
+const tabs = [
+  { key: 'info', label: '信息', content: '这是信息页面' },
+  { key: 'settings', label: '设置', content: '这是设置页面' }
+]
+
+const columns = [
+  { key: 'name', title: '姓名', dataIndex: 'name' },
+  { key: 'age', title: '年龄', dataIndex: 'age' }
+]
+
+const data = [
+  { id: 1, name: '张三', age: 32 },
+  { id: 2, name: '李四', age: 28 }
+]
 
 function submit() {
-  console.log('提交:', username.value)
+  console.log('提交:', { username: username.value, framework: selectedFramework.value })
 }
 </script>
 ```
@@ -259,8 +339,23 @@ npm install @ui-lib/ui-shared
 
 ## 📈 扩展计划
 
-- [ ] 添加更多组件 (Table, Modal, Form 等)
-- [ ] 主题系统和定制化
+### 已完成 ✅
+- [x] 添加 Radio/RadioGroup 组件
+- [x] 添加 Tabs 标签页组件  
+- [x] 添加 Table 表格组件
+- [x] 完善 Vue 组件库文档
+- [x] 更新 React 组件库文档
+
+### 规划中 🚧
+- [ ] DatePicker 日期选择器
+- [ ] Upload 文件上传组件
+- [ ] Form 表单容器组件
+- [ ] Menu 导航菜单组件
+- [ ] Breadcrumb 面包屑导航
+- [ ] Pagination 分页组件
+- [ ] Notification 通知组件
+- [ ] Message 消息组件
+- [ ] 主题系统和深度定制
 - [ ] 单元测试覆盖
 - [ ] Storybook 集成
 - [ ] CI/CD 自动化

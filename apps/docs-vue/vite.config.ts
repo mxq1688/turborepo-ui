@@ -4,6 +4,11 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [vue()],
+  server: {
+    port: 3001,
+    host: true,
+    strictPort: true
+  },
   resolve: {
     alias: {
       '@ui-lib/ui-vue': resolve(__dirname, '../../packages/ui-vue/src/index.ts'),

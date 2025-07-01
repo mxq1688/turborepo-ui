@@ -1,0 +1,17 @@
+{
+  "name": "@ui-lib/docs-vitepress",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "@ui-lib/ui-vue": "*",
+    "@ui-lib/ui-react": "*",
+    "vitepress": "^1.0.0-rc.31",
+    "vue": "^3.3.4"
+  }
+} 

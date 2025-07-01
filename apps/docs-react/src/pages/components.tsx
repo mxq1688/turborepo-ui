@@ -6,8 +6,30 @@ import {
   CardHeader, 
   CardTitle, 
   CardContent,
-  Input
+  Input,
+  Select,
+  Table,
+  Modal,
+  Radio,
+  Checkbox,
+  Form
 } from '@ui-lib/ui-react';
+
+// 导入所有文档组件
+import AlertDocs from '../components/docs/AlertDocs';
+import AvatarDocs from '../components/docs/AvatarDocs';
+import BadgeDocs from '../components/docs/BadgeDocs';
+import CheckboxDocs from '../components/docs/CheckboxDocs';
+import DatePickerDocs from '../components/docs/DatePickerDocs';
+import FormDocs from '../components/docs/FormDocs';
+import LoadingDocs from '../components/docs/LoadingDocs';
+import ModalDocs from '../components/docs/ModalDocs';
+import RadioDocs from '../components/docs/RadioDocs';
+import SelectDocs from '../components/docs/SelectDocs';
+import SwitchDocs from '../components/docs/SwitchDocs';
+import TableDocs from '../components/docs/TableDocs';
+import TabsDocs from '../components/docs/TabsDocs';
+import UploadDocs from '../components/docs/UploadDocs';
 
 interface ComponentMenuProps {
   activeComponent: string;
@@ -20,29 +42,35 @@ const ComponentMenu: React.FC<ComponentMenuProps> = ({ activeComponent, onCompon
     { id: 'button', name: 'Button 按钮', description: '基础按钮组件' },
     { id: 'card', name: 'Card 卡片', description: '通用卡片容器' },
     { id: 'input', name: 'Input 输入框', description: '基础表单输入组件' },
+    { id: 'modal', name: 'Modal 对话框', description: '模态对话框组件' },
+    { id: 'select', name: 'Select 选择器', description: '下拉选择器组件' },
+    { id: 'checkbox', name: 'Checkbox 多选框', description: '多选框组件' },
+    { id: 'radio', name: 'Radio 单选框', description: '单选框组件' },
+    { id: 'switch', name: 'Switch 开关', description: '开关组件' },
+    { id: 'tabs', name: 'Tabs 标签页', description: '选项卡切换组件' },
+    { id: 'table', name: 'Table 表格', description: '数据表格组件' },
+    { id: 'badge', name: 'Badge 徽标', description: '徽标数字组件' },
+    { id: 'avatar', name: 'Avatar 头像', description: '用户头像组件' },
+    { id: 'alert', name: 'Alert 警告提示', description: '警告提示组件' },
+    { id: 'loading', name: 'Loading 加载', description: '加载状态组件' },
+    { id: 'form', name: 'Form 表单', description: '表单容器组件' },
+    { id: 'datepicker', name: 'DatePicker 日期选择', description: '日期选择器' },
+    { id: 'upload', name: 'Upload 上传', description: '文件上传组件' },
   ];
 
-  // 规划中的组件（已在 React 版本中实现）
+  // 规划中的组件
   const plannedComponents = [
-    // 表单组件
-    { id: 'select', name: 'Select 选择器', description: '下拉选择器' },
-    { id: 'checkbox', name: 'Checkbox 多选框', description: '多选框' },
-    { id: 'radio', name: 'Radio 单选框', description: '单选框' },
-    { id: 'switch', name: 'Switch 开关', description: '开关选择器' },
-    
-    // 数据展示
-    { id: 'avatar', name: 'Avatar 头像', description: '用户头像展示' },
-    { id: 'badge', name: 'Badge 徽标数', description: '图标右上角的圆形徽标数字' },
-    { id: 'table', name: 'Table 表格', description: '展示行列数据' },
+    // 导航组件
+    { id: 'menu', name: 'Menu 导航菜单', description: '为页面和功能提供导航' },
+    { id: 'breadcrumb', name: 'Breadcrumb 面包屑', description: '页面导航路径' },
+    { id: 'pagination', name: 'Pagination 分页', description: '分页导航组件' },
     
     // 反馈组件
-    { id: 'alert', name: 'Alert 警告提示', description: '警告提示，展现需要关注的信息' },
-    { id: 'loading', name: 'Loading 加载中', description: '用于页面和区块的加载中状态' },
-    { id: 'modal', name: 'Modal 对话框', description: '模态对话框' },
-    
-    // 导航组件
-    { id: 'tabs', name: 'Tabs 标签页', description: '选项卡切换组件' },
-    { id: 'menu', name: 'Menu 导航菜单', description: '为页面和功能提供导航' },
+    { id: 'notification', name: 'Notification 通知', description: '全局通知提醒' },
+    { id: 'message', name: 'Message 消息', description: '操作反馈消息' },
+    { id: 'popover', name: 'Popover 弹出框', description: '点击弹出式的容器' },
+    { id: 'tree', name: 'Tree 树形控件', description: '文件夹、组织架构、生物分类、国家地区等等' },
+    { id: 'calendar', name: 'Calendar 日历', description: '按照日历形式展示数据的容器' },
   ];
 
   return (
@@ -76,8 +104,8 @@ const ComponentMenu: React.FC<ComponentMenuProps> = ({ activeComponent, onCompon
 
         {/* 规划中的组件 */}
         <div className="mb-4">
-          <div className="text-xs font-medium text-blue-600 uppercase tracking-wider px-3 py-2 bg-blue-50 rounded">
-            🚀 React 已实现
+          <div className="text-xs font-medium text-orange-600 uppercase tracking-wider px-3 py-2 bg-orange-50 rounded">
+            🚧 规划中
           </div>
           <div className="space-y-1 mt-2">
             {plannedComponents.map((comp) => (
@@ -157,8 +185,6 @@ const ApiTable: React.FC<ApiTableProps> = ({ title, data }) => (
     </div>
   </div>
 );
-
-
 
 interface ExampleBlockProps {
   title: string;
@@ -1124,6 +1150,34 @@ export default function Components() {
         return <CardDocs />;
       case 'input':
         return <InputDocs />;
+      case 'select':
+        return <SelectDocs />;
+      case 'table':
+        return <TableDocs />;
+      case 'form':
+        return <FormDocs />;
+      case 'radio':
+        return <RadioDocs />;
+      case 'modal':
+        return <ModalDocs />;
+      case 'checkbox':
+        return <CheckboxDocs />;
+      case 'alert':
+        return <AlertDocs />;
+      case 'avatar':
+        return <AvatarDocs />;
+      case 'badge':
+        return <BadgeDocs />;
+      case 'datepicker':
+        return <DatePickerDocs />;
+      case 'loading':
+        return <LoadingDocs />;
+      case 'switch':
+        return <SwitchDocs />;
+      case 'tabs':
+        return <TabsDocs />;
+      case 'upload':
+        return <UploadDocs />;
       default:
         return (
           <div className="text-center py-20">

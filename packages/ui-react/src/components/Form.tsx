@@ -133,7 +133,7 @@ export function Form({
   onFinishFailed,
   onValuesChange,
   validateTrigger = 'onChange',
-  preserve = true,
+
   className,
   style,
   children,
@@ -471,5 +471,4 @@ export function FormTextarea({
 }
 
 // ===== 导出 =====
-export default Form;
-export { FormItem, FormInput, FormTextarea }; 
+export default Form; 

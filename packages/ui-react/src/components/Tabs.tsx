@@ -4,27 +4,35 @@ import { styleUtils, combineClasses } from '@ui-lib/shared';
 export interface Tab {
   key: string;
   label: string;
-  content: React.ReactNode;
+  content?: React.ReactNode;
+  children?: React.ReactNode;
   disabled?: boolean;
 }
 
 export interface TabsProps {
-  tabs: Tab[];
+  tabs?: Tab[];
+  items?: Tab[];
   defaultActiveKey?: string;
   activeKey?: string;
   onChange?: (key: string) => void;
   className?: string;
+  type?: 'line' | 'card';
+  size?: 'small' | 'default' | 'large';
 }
 
 export const Tabs: React.FC<TabsProps> = ({
   tabs,
+  items,
   defaultActiveKey,
   activeKey: controlledActiveKey,
   onChange,
   className
 }) => {
+  // Support both tabs and items props (items takes precedence for Ant Design compatibility)
+  const tabData = items || tabs || [];
+  
   const [internalActiveKey, setInternalActiveKey] = useState(
-    defaultActiveKey || tabs[0]?.key || ''
+    defaultActiveKey || tabData[0]?.key || ''
   );
 
   const activeKey = controlledActiveKey ?? internalActiveKey;
@@ -37,13 +45,13 @@ export const Tabs: React.FC<TabsProps> = ({
     onChange?.(key);
   };
 
-  const activeTab = tabs.find(tab => tab.key === activeKey);
+  const activeTab = tabData.find(tab => tab.key === activeKey);
 
   return (
     <div className={className}>
       {/* Tab List */}
       <div className={styleUtils.tabs.list} role="tablist">
-        {tabs.map((tab) => (
+        {tabData.map((tab) => (
           <button
             key={tab.key}
             type="button"
@@ -64,7 +72,7 @@ export const Tabs: React.FC<TabsProps> = ({
 
       {/* Tab Content */}
       <div className={styleUtils.tabs.panel} role="tabpanel">
-        {activeTab?.content}
+        {activeTab?.content || activeTab?.children}
       </div>
     </div>
   );

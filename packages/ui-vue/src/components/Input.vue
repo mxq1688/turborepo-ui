@@ -23,7 +23,7 @@ import { computed } from 'vue'
 import { InputProps, styleUtils, combineClasses } from '@ui-lib/shared'
 
 // Props定义
-interface VueInputProps extends Omit<InputProps, 'children' | 'value'> {
+interface VueInputProps extends /* @vue-ignore */ Omit<InputProps, 'children' | 'value'> {
   modelValue?: string
 }
 

@@ -26,8 +26,21 @@ const ButtonDocs = defineAsyncComponent(() => import('../components/docs/ButtonD
 const CardDocs = defineAsyncComponent(() => import('../components/docs/CardDocs.vue'))
 const InputDocs = defineAsyncComponent(() => import('../components/docs/InputDocs.vue'))
 const ModalDocs = defineAsyncComponent(() => import('../components/docs/ModalDocs.vue'))
+const RadioDocs = defineAsyncComponent(() => import('../components/docs/RadioDocs.vue'))
+const TabsDocs = defineAsyncComponent(() => import('../components/docs/TabsDocs.vue'))
+const TableDocs = defineAsyncComponent(() => import('../components/docs/TableDocs.vue'))
+const SelectDocs = defineAsyncComponent(() => import('../components/docs/SelectDocs.vue'))
+const CheckboxDocs = defineAsyncComponent(() => import('../components/docs/CheckboxDocs.vue'))
+const SwitchDocs = defineAsyncComponent(() => import('../components/docs/SwitchDocs.vue'))
+const BadgeDocs = defineAsyncComponent(() => import('../components/docs/BadgeDocs.vue'))
+const AvatarDocs = defineAsyncComponent(() => import('../components/docs/AvatarDocs.vue'))
+const AlertDocs = defineAsyncComponent(() => import('../components/docs/AlertDocs.vue'))
+const LoadingDocs = defineAsyncComponent(() => import('../components/docs/LoadingDocs.vue'))
+const FormDocs = defineAsyncComponent(() => import('../components/docs/FormDocs.vue'))
 const ThemeDocs = defineAsyncComponent(() => import('../components/docs/ThemeDocs.vue'))
 const I18nDocs = defineAsyncComponent(() => import('../components/docs/I18nDocs.vue'))
+const UploadDocs = defineAsyncComponent(() => import('../components/docs/UploadDocs.vue'))
+const DatePickerDocs = defineAsyncComponent(() => import('../components/docs/DatePickerDocs.vue'))
 
 // 创建简单的文档组件模板
 const createSimpleDocsComponent = (name: string, description: string) => {
@@ -80,24 +93,36 @@ const currentComponentDocs = computed(() => {
       return InputDocs
     case 'modal':
       return ModalDocs
+    case 'radio':
+      return RadioDocs
+    case 'tabs':
+      return TabsDocs
+    case 'table':
+      return TableDocs
     case 'theme':
       return ThemeDocs
     case 'i18n':
       return I18nDocs
     case 'select':
-      return createSimpleDocsComponent('Select 选择器', '下拉选择器组件')
+      return SelectDocs
     case 'checkbox':
-      return createSimpleDocsComponent('Checkbox 多选框', '多选框组件')
+      return CheckboxDocs
     case 'switch':
-      return createSimpleDocsComponent('Switch 开关', '开关选择器组件')
+      return SwitchDocs
     case 'badge':
-      return createSimpleDocsComponent('Badge 徽标', '徽标数字组件')
+      return BadgeDocs
     case 'avatar':
-      return createSimpleDocsComponent('Avatar 头像', '用户头像展示组件')
+      return AvatarDocs
     case 'alert':
-      return createSimpleDocsComponent('Alert 警告提示', '警告提示组件')
+      return AlertDocs
     case 'loading':
-      return createSimpleDocsComponent('Loading 加载', '加载状态组件')
+      return LoadingDocs
+    case 'form':
+      return FormDocs
+    case 'upload':
+      return UploadDocs
+    case 'datepicker':
+      return DatePickerDocs
     default:
       return createSimpleDocsComponent('组件文档', '组件文档正在完善中...')
   }
