@@ -4,6 +4,8 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "dev:react": "turbo dev:react",
+    "dev:vue": "turbo dev:vue",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
