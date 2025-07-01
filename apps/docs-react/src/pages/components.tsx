@@ -1196,7 +1196,7 @@ export default function Components() {
             <div className="flex items-center space-x-8">
               <Link href="/" className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">UI</span>
+                  <span className="text-white font-bold text-sm">React</span>
                 </div>
                 <span className="text-xl font-semibold text-gray-900">Components</span>
               </Link>

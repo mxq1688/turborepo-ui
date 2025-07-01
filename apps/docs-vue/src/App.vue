@@ -26,12 +26,20 @@
               >
                 组件
               </router-link>
-              <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
+              <router-link 
+                to="/guide" 
+                class="font-medium transition-colors"
+                :class="$route.path === '/guide' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'"
+              >
                 指南
-              </a>
-              <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
+              </router-link>
+              <router-link 
+                to="/resources" 
+                class="font-medium transition-colors"
+                :class="$route.path === '/resources' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'"
+              >
                 资源
-              </a>
+              </router-link>
             </nav>
           </div>
           <div class="flex items-center space-x-4">
@@ -80,7 +88,7 @@
           <div>
             <h3 class="font-semibold text-gray-900 mb-4">文档</h3>
             <ul class="space-y-2 text-sm text-gray-600">
-              <li><router-link to="/">快速开始</router-link></li>
+              <li><router-link to="/guide">快速开始</router-link></li>
               <li><router-link to="/components">组件</router-link></li>
               <li><a href="#">主题定制</a></li>
               <li><a href="#">更新日志</a></li>

@@ -14,6 +14,7 @@ const config: StorybookConfig = {
   },
   docs: {
     autodocs: 'tag',
+    defaultName: 'Documentation',
   },
   typescript: {
     check: false,
@@ -22,6 +23,9 @@ const config: StorybookConfig = {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
+  },
+  features: {
+    buildStoriesJson: true,
   },
 }
 
