@@ -1,41 +1,41 @@
-# 安装指南
+# Installation
 
-学习如何在您的项目中安装和设置 UI 组件库。
+Learn how to install and set up the UI Component Library in your project.
 
-## 环境要求
+## Requirements
 
-在安装 UI 组件库之前，请确保您的环境满足以下要求：
+Before installing the UI Component Library, make sure your environment meets the following requirements:
 
-- **Node.js**: 16.0 或更高版本
-- **包管理器**: npm、yarn 或 pnpm
-- **框架**: React 17+ 或 Vue 3+
-- **TypeScript**: 4.5+ (可选但推荐)
+- **Node.js**: 16.0 or higher
+- **Package Manager**: npm, yarn, or pnpm
+- **Framework**: React 17+ or Vue 3+
+- **TypeScript**: 4.5+ (optional but recommended)
 
-## 包安装
+## Package Installation
 
-选择与您的框架匹配的包：
+Choose the package that matches your framework:
 
 ::: code-group
 
 ```bash [React]
-# 安装 React 包
+# Install the React package
 npm install @ui-lib/ui-react
 
-# 安装同等依赖
+# Install peer dependencies
 npm install react react-dom
 ```
 
 ```bash [Vue]
-# 安装 Vue 包
+# Install the Vue package
 npm install @ui-lib/ui-vue
 
-# 安装同等依赖
+# Install peer dependencies
 npm install vue
 ```
 
 :::
 
-### 使用 Yarn
+### Using Yarn
 
 ::: code-group
 
@@ -49,7 +49,7 @@ yarn add @ui-lib/ui-vue vue
 
 :::
 
-### 使用 PNPM
+### Using PNPM
 
 ::: code-group
 
@@ -63,24 +63,24 @@ pnpm add @ui-lib/ui-vue vue
 
 :::
 
-## CSS 框架
+## CSS Framework
 
-我们的组件库使用 Tailwind CSS 进行样式设计。您有两个选择：
+Our component library uses Tailwind CSS for styling. You have two options:
 
-### 选项 1: 使用预构建的 CSS (推荐)
+### Option 1: Use Pre-built CSS (Recommended)
 
-导入包含所有必要样式的预编译 CSS 文件：
+Import the pre-compiled CSS file that includes all necessary styles:
 
 ```js
-// 在您的主入口文件中
+// In your main entry file
 import '@ui-lib/ui-react/dist/index.css'
-// 或
+// or
 import '@ui-lib/ui-vue/dist/index.css'
 ```
 
-### 选项 2: 配置 Tailwind CSS
+### Option 2: Configure Tailwind CSS
 
-如果您的项目中已经在使用 Tailwind CSS，请扩展您的配置：
+If you're already using Tailwind CSS in your project, extend your configuration:
 
 ```js
 // tailwind.config.js
@@ -105,11 +105,11 @@ module.exports = {
 }
 ```
 
-## 框架设置
+## Framework Setup
 
-### React 设置
+### React Setup
 
-#### 1. 基础设置
+#### 1. Basic Setup
 
 ```tsx
 // src/App.tsx
@@ -121,8 +121,8 @@ function App() {
   return (
     <div className="p-8">
       <Card>
-        <h1 className="text-2xl font-bold mb-4">欢迎使用 UI 组件库</h1>
-        <Button variant="primary">开始使用</Button>
+        <h1 className="text-2xl font-bold mb-4">Welcome to UI Library</h1>
+        <Button variant="primary">Get Started</Button>
       </Card>
     </div>
   )
@@ -131,7 +131,7 @@ function App() {
 export default App
 ```
 
-#### 2. 使用主题提供器 (可选)
+#### 2. With Theme Provider (Optional)
 
 ```tsx
 // src/App.tsx
@@ -141,13 +141,13 @@ import { ThemeProvider, Button } from '@ui-lib/ui-react'
 function App() {
   return (
     <ThemeProvider theme="light">
-      <Button variant="primary">主题按钮</Button>
+      <Button variant="primary">Themed Button</Button>
     </ThemeProvider>
   )
 }
 ```
 
-#### 3. 使用国际化 (可选)
+#### 3. With Internationalization (Optional)
 
 ```tsx
 // src/App.tsx
@@ -161,24 +161,24 @@ const messages = {
 
 function App() {
   return (
-    <I18nProvider locale="zh" messages={messages}>
-      <Button variant="primary">你好世界</Button>
+    <I18nProvider locale="en" messages={messages}>
+      <Button variant="primary">Hello World</Button>
     </I18nProvider>
   )
 }
 ```
 
-### Vue 设置
+### Vue Setup
 
-#### 1. 基础设置
+#### 1. Basic Setup
 
 ```vue
 <!-- src/App.vue -->
 <template>
   <div class="p-8">
     <Card>
-      <h1 class="text-2xl font-bold mb-4">欢迎使用 UI 组件库</h1>
-      <Button variant="primary">开始使用</Button>
+      <h1 class="text-2xl font-bold mb-4">Welcome to UI Library</h1>
+      <Button variant="primary">Get Started</Button>
     </Card>
   </div>
 </template>
@@ -189,7 +189,7 @@ import '@ui-lib/ui-vue/dist/index.css'
 </script>
 ```
 
-#### 2. 插件注册
+#### 2. Plugin Registration
 
 ```js
 // src/main.js
@@ -203,7 +203,7 @@ app.use(UILibrary)
 app.mount('#app')
 ```
 
-#### 3. 全局配置
+#### 3. With Global Configuration
 
 ```js
 // src/main.js
@@ -213,49 +213,49 @@ import UILibrary from '@ui-lib/ui-vue'
 
 const app = createApp(App)
 
-// 全局配置
+// Global configuration
 app.use(UILibrary, {
   theme: 'light',
-  locale: 'zh',
+  locale: 'en',
   size: 'md'
 })
 
 app.mount('#app')
 ```
 
-## TypeScript 支持
+## TypeScript Support
 
-我们的库包含完整的 TypeScript 定义。无需额外设置！
+Our library includes full TypeScript definitions. No additional setup is required!
 
-### 类型导入
+### Type Imports
 
 ```ts
-// 导入组件类型
+// Import component types
 import type { ButtonProps, CardProps } from '@ui-lib/ui-react'
-// 或
+// or
 import type { ButtonProps, CardProps } from '@ui-lib/ui-vue'
 
-// 在您的组件中使用
+// Use in your components
 interface MyComponentProps {
   buttonConfig: ButtonProps
   cardConfig: CardProps
 }
 ```
 
-## 打包大小优化
+## Bundle Size Optimization
 
 ### Tree Shaking
 
-我们的库开箱即用支持 tree shaking：
+Our library supports tree shaking out of the box:
 
 ```js
-// 只导入 Button 组件及其依赖
+// Only imports Button component and its dependencies
 import { Button } from '@ui-lib/ui-react'
 ```
 
-### 组件级导入
+### Component-level Imports
 
-为了更小的打包体积，可以单独导入组件：
+For even smaller bundles, import components individually:
 
 ```js
 // React
@@ -267,9 +267,9 @@ import Button from '@ui-lib/ui-vue/Button'
 import Card from '@ui-lib/ui-vue/Card'
 ```
 
-## CDN 使用 (浏览器)
+## CDN Usage (Browser)
 
-用于快速原型制作或静态网站：
+For quick prototyping or static sites:
 
 ```html
 <!DOCTYPE html>
@@ -287,25 +287,25 @@ import Card from '@ui-lib/ui-vue/Card'
 </html>
 ```
 
-## 故障排除
+## Troubleshooting
 
-### 常见问题
+### Common Issues
 
-**1. CSS 未加载**
+**1. CSS not loading**
 ```bash
-# 确保导入 CSS 文件
+# Make sure to import the CSS file
 import '@ui-lib/ui-react/dist/index.css'
 ```
 
-**2. TypeScript 错误**
+**2. TypeScript errors**
 ```bash
-# 安装类型定义
+# Install type definitions
 npm install --save-dev @types/react @types/react-dom
 ```
 
-**3. 打包器构建错误**
+**3. Build errors with bundlers**
 ```js
-// 添加到您的打包器配置中
+// Add to your bundler config
 module.exports = {
   resolve: {
     alias: {
@@ -315,9 +315,9 @@ module.exports = {
 }
 ```
 
-## 下一步
+## Next Steps
 
-- 📖 阅读 [快速开始指南](/guide/quick-start)
-- 🎨 了解 [主题定制](/guide/theming)
-- 🧩 浏览 [组件文档](/components/)
-- 💡 查看 [示例项目](https://github.com/your-username/turborepo-ui/tree/main/demo-app) 
+- 📖 Read the [Quick Start Guide](/guide/quick-start)
+- 🎨 Learn about [Theme Customization](/guide/theming)
+- 🧩 Browse [Component Documentation](/components/)
+- 💡 Check out [Examples](/examples/) 

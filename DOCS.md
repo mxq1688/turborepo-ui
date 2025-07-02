@@ -1,137 +1,197 @@
-# 📚 文档系统使用指南
+# 📚 UI 组件库文档系统
 
-本项目现在包含 **4 个不同的文档系统**，每个都有各自的特点和用途：
+本项目提供了多种文档系统，满足不同的使用场景和需求。
 
-## 🎯 文档系统对比
+## 🎯 文档项目总览
 
-| 文档系统 | 框架 | 特点 | 适用场景 | 端口 |
-|---------|------|------|----------|------|
-| **React 自建** | Next.js | 完全自定义、中文文档 | 产品展示、用户指南 | 3000 |
-| **Vue 自建** | Vite + Vue 3 | 完全自定义、中文文档 | 产品展示、用户指南 | 3001 |
-| **VitePress** | Markdown + Vue | 文档优先、SEO 友好 | 技术文档、API 文档 | 5173 |
-| **Storybook** | 组件驱动 | 交互式开发、测试 | 组件开发、设计系统 | 6006 |
+| 项目 | 技术栈 | 端口 | 用途 | 状态 |
+|-----|--------|------|-----|------|
+| **docs-react** | Next.js + TailwindCSS | 3002 | React 组件交互式文档 | ✅ 完善 |
+| **docs-vue** | Vite + Vue 3 + TailwindCSS | 3001 | Vue 组件交互式文档 | ✅ 完善 |
+| **docs-vitepress** | VitePress + Markdown | 5173 | 静态文档站点（支持中英文） | ✅ 完善 |
+| **docs-storybook** | Storybook 7.6 | 6006 | 组件开发和测试环境 | ✅ 完善 |
 
-## 🚀 快速开始
+## 🚀 启动文档项目
 
-### 方法 1: 一键安装脚本
-```bash
-./setup-docs.sh
-```
-
-### 方法 2: 手动安装
-```bash
-# 安装根依赖
-npm install
-
-# 安装 VitePress 依赖
-cd apps/docs-vitepress && npm install && cd ../..
-
-# 安装 Storybook 依赖
-cd apps/docs-storybook && npm install && cd ../..
-```
-
-## 🎨 启动文档系统
+### 启动单个文档项目
 
 ```bash
-# 启动 React 自建文档 (端口 3000)
+# React 交互式文档 (http://localhost:3002)
 npm run dev:react
 
-# 启动 Vue 自建文档 (端口 3001)
+# Vue 交互式文档 (http://localhost:3001)
 npm run dev:vue
 
-# 启动 VitePress 文档 (端口 5173)
+# VitePress 静态文档 (http://localhost:5173)
 npm run dev:vitepress
 
-# 启动 Storybook 文档 (端口 6006)
+# Storybook 组件库 (http://localhost:6006)
 npm run dev:storybook
 ```
 
-## 📖 各系统详细介绍
+### 启动所有文档项目
 
-### 1. React 自建文档系统 (`apps/docs-react/`)
-- **技术栈**: Next.js + TailwindCSS
-- **特点**: 
-  - 完全自定义的 UI 设计
-  - 中文界面和示例
-  - 实时交互演示
-  - 完整的组件 API 文档
-- **适用于**: 面向最终用户的产品文档
+```bash
+# 并行启动所有文档服务
+npm run dev
+```
 
-### 2. Vue 自建文档系统 (`apps/docs-vue/`)
-- **技术栈**: Vite + Vue 3 + TailwindCSS
-- **特点**:
-  - 完全自定义的 UI 设计
-  - 中文界面和示例
-  - 实时交互演示
-  - 完整的组件 API 文档
-- **适用于**: 面向最终用户的产品文档
+## 📖 文档项目特色
 
-### 3. VitePress 文档系统 (`apps/docs-vitepress/`)
-- **技术栈**: VitePress (Vite + Vue + Markdown)
-- **特点**:
-  - Markdown 驱动的文档
-  - 出色的 SEO 支持
-  - 快速的构建和热重载
-  - 内置搜索功能
-  - 可嵌入 Vue 组件
-- **适用于**: 技术文档、API 参考、用户手册
+### 1. **docs-react** - React 交互式文档
+- 🎨 **实时预览**：每个组件都有可交互的在线演示
+- 🔧 **完整 API**：详细的属性、事件和方法文档
+- 💡 **最佳实践**：包含使用指南和设计原则
+- 🎯 **代码示例**：可复制的代码片段
 
-### 4. Storybook 文档系统 (`apps/docs-storybook/`)
-- **技术栈**: Storybook + React
-- **特点**:
-  - 组件驱动开发 (CDD)
-  - 交互式组件测试
-  - 自动生成的 Props 文档
-  - 视觉回归测试
-  - 组件隔离开发
-- **适用于**: 设计系统、组件库开发、UI 测试
+**包含组件：**
+- 基础组件：Button, Input, Card
+- 表单组件：Checkbox, Radio, Select, Switch, Upload, DatePicker, Form
+- 数据展示：Table, Tabs, Avatar, Badge, Alert
+- 反馈组件：Loading, Modal
 
-## 🔧 配置和自定义
+### 2. **docs-vue** - Vue 交互式文档
+- 🔄 **实时交互**：Vue 3 Composition API 演示
+- 🌐 **响应式设计**：支持各种屏幕尺寸
+- 🎛️ **动态控制**：可调节组件属性查看效果
+- 📱 **移动优化**：针对移动设备优化的文档界面
 
-### VitePress 配置
-- 配置文件: `apps/docs-vitepress/docs/.vitepress/config.ts`
-- 主题配置: 导航、侧边栏、页脚等
-- 支持自定义 CSS 和组件
+**特色功能：**
+- 动态表单验证演示
+- 主题切换示例
+- 国际化支持演示
+- 组件状态管理示例
 
-### Storybook 配置
-- 配置文件: `apps/docs-storybook/.storybook/main.ts`
-- 预览配置: `apps/docs-storybook/.storybook/preview.ts`
-- 支持插件和自定义装饰器
+### 3. **docs-vitepress** - 静态文档站点
+- 🌍 **多语言支持**：完整的中英文双语文档
+- 🔍 **全文搜索**：基于本地搜索的文档检索
+- 📚 **结构化内容**：清晰的导航和分类
+- ⚡ **高性能**：基于 Vite 的快速构建
 
-## 📝 内容管理
+**文档结构：**
+```
+docs/
+├── en/                    # 英文文档
+│   ├── components/        # 组件文档
+│   ├── guide/            # 使用指南
+│   └── index.md          # 首页
+├── zh/                    # 中文文档
+│   ├── components/        # 组件文档
+│   ├── guide/            # 使用指南
+│   └── index.md          # 首页
+└── .vitepress/           # 配置文件
+```
 
-### Markdown 文档 (VitePress)
-- 页面位置: `apps/docs-vitepress/docs/`
-- 支持 Vue 组件嵌入
-- 自动生成导航
+### 4. **docs-storybook** - 组件开发环境
+- 🎮 **交互式控制台**：实时调节组件属性
+- 🌓 **主题切换**：支持亮色/暗色主题
+- 🌐 **国际化工具栏**：中英文切换
+- 📊 **自动生成文档**：基于 TypeScript 的 API 文档
 
-### Stories (Storybook)
-- Stories 位置: `apps/docs-storybook/src/stories/`
-- 支持 CSF (Component Story Format)
-- 自动生成控件和文档
+**Storybook 配置特色：**
+- 自动生成 TypeScript 文档
+- 国际化支持（中英文）
+- 响应式视窗测试
+- 交互性测试工具
+- 可访问性检查
 
-## 🎯 推荐使用场景
+## 🧩 已完善的组件文档
 
-| 需求 | 推荐系统 | 原因 |
-|------|----------|------|
-| 给客户展示产品 | React/Vue 自建 | 完全自定义设计，中文支持 |
-| 编写技术文档 | VitePress | Markdown 友好，SEO 优化 |
-| 组件开发调试 | Storybook | 组件隔离，交互测试 |
-| API 参考文档 | VitePress | 结构化文档，搜索功能 |
-| 设计系统展示 | Storybook | 视觉展示，交互控制 |
+### 基础组件
+- ✅ **Button** - 按钮组件（支持多种变体和尺寸）
+- ✅ **Input** - 输入框组件（支持多种类型和状态）
+- ✅ **Card** - 卡片组件（灵活的容器组件）
 
-## 🔄 同步更新
+### 表单组件
+- ✅ **Form** - 表单组件（完整的表单解决方案）
+- ✅ **Checkbox** - 复选框组件
+- ✅ **Radio** - 单选框组件
+- ✅ **Select** - 选择器组件
+- ✅ **Switch** - 开关组件
+- ✅ **Upload** - 上传组件
+- ✅ **DatePicker** - 日期选择器
 
-当你更新组件库时，记得同步更新所有文档系统：
+### 数据展示
+- ✅ **Table** - 表格组件（支持排序、分页、自定义渲染）
+- ✅ **Tabs** - 标签页组件
+- ✅ **Avatar** - 头像组件
+- ✅ **Badge** - 徽章组件
+- ✅ **Alert** - 警告提示组件
 
-1. 更新组件实现后，运行 `npm run build` 构建组件库
-2. 在各个文档系统中添加或更新相应的文档/Stories
-3. 测试所有文档系统确保正常工作
+### 反馈组件
+- ✅ **Loading** - 加载组件
+- ✅ **Modal** - 模态框组件
 
-## 🚀 部署建议
+## 🎨 文档特色功能
 
-- **React/Vue 自建**: 部署到 Vercel 或 Netlify
-- **VitePress**: 部署到 GitHub Pages 或 Vercel
-- **Storybook**: 部署到 Chromatic 或静态托管服务
+### 1. 国际化支持
+- 🇺🇸 **英文文档**：完整的英文组件文档
+- 🇨🇳 **中文文档**：本地化的中文文档
+- 🔄 **动态切换**：在 Storybook 中支持语言切换
 
-每个系统都可以独立部署，满足不同的使用需求。 
+### 2. 主题系统
+- 🌞 **亮色主题**：默认的亮色界面
+- 🌙 **暗色主题**：护眼的暗色界面
+- 🎨 **自定义主题**：支持主题定制
+
+### 3. 响应式设计
+- 📱 **移动端**：375px 移动设备优化
+- 📱 **平板端**：768px 平板设备支持
+- 💻 **桌面端**：1024px+ 桌面设备体验
+
+### 4. 开发者体验
+- 🔧 **TypeScript 支持**：完整的类型定义
+- 🎯 **代码高亮**：语法高亮的代码示例
+- 📋 **一键复制**：可复制的代码片段
+- 🔍 **搜索功能**：快速定位所需文档
+
+## 🛠️ 技术架构
+
+### 构建工具
+- **Turbo**: 高性能的 monorepo 构建工具
+- **Vite**: 快速的前端构建工具
+- **TypeScript**: 类型安全的开发体验
+
+### 框架支持
+- **React 18**: 最新的 React 特性支持
+- **Vue 3**: Composition API 和响应式系统
+- **Next.js**: React 全栈框架
+- **VitePress**: Vue 驱动的静态站点生成器
+
+### 样式系统
+- **TailwindCSS**: 实用优先的 CSS 框架
+- **CSS Variables**: 动态主题支持
+- **响应式设计**: 移动优先的设计理念
+
+## 📈 使用建议
+
+### 不同场景的文档选择
+
+1. **组件开发阶段** → 使用 **Storybook**
+   - 隔离开发组件
+   - 测试不同状态
+   - 调试交互逻辑
+
+2. **集成测试阶段** → 使用 **React/Vue 文档**
+   - 验证组件集成
+   - 测试用户流程
+   - 检查响应式效果
+
+3. **对外文档展示** → 使用 **VitePress**
+   - 结构化的文档内容
+   - SEO 友好的静态页面
+   - 多语言支持
+
+4. **团队培训学习** → 组合使用所有文档
+   - VitePress 提供概念学习
+   - Storybook 提供组件探索
+   - 交互式文档提供实践练习
+
+## 🚀 未来计划
+
+- [ ] 添加更多组件的文档
+- [ ] 集成自动化测试
+- [ ] 增加可访问性指南
+- [ ] 添加设计令牌文档
+- [ ] 集成组件性能分析
+- [ ] 支持更多主题变体 

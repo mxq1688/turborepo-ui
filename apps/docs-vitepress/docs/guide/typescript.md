@@ -1,753 +1,765 @@
-# TypeScript Support
+# TypeScript 支持
 
-Our component library is built with TypeScript from the ground up, providing excellent type safety and developer experience.
+UI组件库使用TypeScript开发，提供完整的类型定义和优秀的开发体验。
 
-## Overview
+## 基础配置
 
-### ✅ What You Get
+### tsconfig.json 配置
 
-- **100% TypeScript** - All components are written in TypeScript
-- **Complete Type Definitions** - Full IntelliSense support in your IDE
-- **Generic Components** - Type-safe props with generic support
-- **Theme Typing** - Fully typed theme system
-- **Event Typing** - Properly typed event handlers
-- **Utility Types** - Helper types for common patterns
-
-### 📦 No Additional Setup Required
-
-The library includes all necessary type definitions. No need to install `@types/*` packages!
-
-## Component Props Typing
-
-### Basic Component Usage
-
-All component props are fully typed:
-
-```tsx
-import { Button, Input, Select } from '@ui-lib/ui-react'
-
-// ✅ TypeScript will validate all props
-<Button 
-  variant="primary"          // Only accepts valid variants
-  size="md"                  // Only accepts valid sizes
-  onClick={(e) => {          // Event is properly typed
-    console.log(e.target)
-  }}
->
-  Click me
-</Button>
-
-// ❌ TypeScript will catch errors
-<Button 
-  variant="invalid"          // Error: invalid variant
-  size={123}                 // Error: wrong type
-  nonExistentProp="value"    // Error: unknown prop
-/>
-```
-
-### Importing Component Types
-
-Access component prop types directly:
-
-```tsx
-import type { 
-  ButtonProps, 
-  InputProps, 
-  SelectProps,
-  CardProps 
-} from '@ui-lib/ui-react'
-
-// Use in your own component definitions
-interface MyFormProps {
-  submitButton: ButtonProps
-  nameInput: InputProps
-  categorySelect: SelectProps
-}
-
-function MyForm({ submitButton, nameInput, categorySelect }: MyFormProps) {
-  return (
-    <form>
-      <Input {...nameInput} />
-      <Select {...categorySelect} />
-      <Button {...submitButton} />
-    </form>
-  )
-}
-```
-
-## Generic Components
-
-### Select Component with Generic Options
-
-The Select component supports generic typing for options:
-
-```tsx
-import { Select } from '@ui-lib/ui-react'
-
-// Define your option type
-interface User {
-  id: number
-  name: string
-  email: string
-}
-
-// Type-safe select
-function UserSelect() {
-  const users: User[] = [
-    { id: 1, name: 'John Doe', email: 'john@example.com' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
-  ]
-
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
-
-  return (
-    <Select<User>
-      options={users}
-      value={selectedUser}
-      onChange={setSelectedUser}  // Fully typed
-      getOptionLabel={(user) => user.name}      // user is typed as User
-      getOptionValue={(user) => user.id}        // user is typed as User
-      placeholder="Select a user"
-    />
-  )
-}
-```
-
-### Table Component with Generic Data
-
-The Table component supports generic row data:
-
-```tsx
-import { Table } from '@ui-lib/ui-react'
-
-interface Product {
-  id: number
-  name: string
-  price: number
-  category: string
-}
-
-function ProductTable() {
-  const products: Product[] = [
-    { id: 1, name: 'Laptop', price: 999, category: 'Electronics' },
-    { id: 2, name: 'Book', price: 29, category: 'Education' }
-  ]
-
-  return (
-    <Table<Product>
-      data={products}
-      columns={[
-        {
-          key: 'name',
-          header: 'Product Name',
-          cell: (product) => product.name  // product is typed as Product
-        },
-        {
-          key: 'price', 
-          header: 'Price',
-          cell: (product) => `$${product.price}`
-        }
-      ]}
-    />
-  )
-}
-```
-
-## Event Handling
-
-### Properly Typed Event Handlers
-
-All event handlers receive properly typed events:
-
-```tsx
-import { Button, Input, Checkbox } from '@ui-lib/ui-react'
-
-function EventExamples() {
-  // Button click events
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('Button clicked:', event.currentTarget.textContent)
-  }
-
-  // Input change events
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Input value:', event.target.value)
-  }
-
-  // Checkbox change events
-  const handleCheckboxChange = (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Checkbox state:', checked)
-    console.log('Event:', event)
-  }
-
-  return (
-    <div>
-      <Button onClick={handleButtonClick}>
-        Click me
-      </Button>
-      
-      <Input 
-        onChange={handleInputChange}
-        placeholder="Type something"
-      />
-      
-      <Checkbox onChange={handleCheckboxChange}>
-        Check me
-      </Checkbox>
-    </div>
-  )
-}
-```
-
-## Form Handling
-
-### Type-Safe Forms
-
-Create fully typed forms with validation:
-
-```tsx
-import { useForm } from 'react-hook-form'
-import { Button, Input, Select, Checkbox } from '@ui-lib/ui-react'
-
-// Define your form data type
-interface ContactForm {
-  name: string
-  email: string
-  company: string
-  newsletter: boolean
-  message?: string
-}
-
-function TypedContactForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch
-  } = useForm<ContactForm>({
-    defaultValues: {
-      name: '',
-      email: '',
-      company: '',
-      newsletter: false,
-      message: ''
-    }
-  })
-
-  const onSubmit = (data: ContactForm) => {
-    // data is fully typed as ContactForm
-    console.log('Form data:', data)
-  }
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <Input
-        {...register('name', { required: 'Name is required' })}
-        label="Full Name"
-        error={errors.name?.message}
-      />
-      
-      <Input
-        {...register('email', { 
-          required: 'Email is required',
-          pattern: {
-            value: /^\S+@\S+$/i,
-            message: 'Invalid email format'
-          }
-        })}
-        type="email"
-        label="Email"
-        error={errors.email?.message}
-      />
-      
-      <Select
-        {...register('company')}
-        label="Company Size"
-        options={[
-          { value: 'startup', label: '1-10 employees' },
-          { value: 'small', label: '11-50 employees' },
-          { value: 'medium', label: '51-200 employees' }
-        ]}
-      />
-      
-      <Checkbox {...register('newsletter')}>
-        Subscribe to newsletter
-      </Checkbox>
-      
-      <Button type="submit" variant="primary">
-        Submit
-      </Button>
-    </form>
-  )
-}
-```
-
-## Theme Typing
-
-### Typed Theme Configuration
-
-Theme objects are fully typed:
-
-```tsx
-import type { Theme } from '@ui-lib/ui-react'
-
-// Custom theme with full type checking
-const customTheme: Theme = {
-  mode: 'light',
-  colors: {
-    primary: {
-      50: '#eff6ff',
-      100: '#dbeafe',
-      // ... all color stops are required and typed
-      500: '#3b82f6',
-      950: '#172554'
-    },
-    // TypeScript ensures all required colors are provided
-  },
-  spacing: {
-    xs: '0.25rem',
-    sm: '0.5rem',
-    // ... etc
-  }
-  // All theme properties are type-checked
-}
-
-// Using the theme hook with typing
-import { useTheme } from '@ui-lib/ui-react'
-
-function ThemedComponent() {
-  const { colors, spacing, setTheme } = useTheme()
-  
-  // All theme values are properly typed
-  const primaryColor = colors.primary[500]  // string
-  const smallSpacing = spacing.sm           // string
-  
-  return (
-    <div 
-      style={{
-        backgroundColor: primaryColor,
-        padding: smallSpacing
-      }}
-    >
-      Themed content
-    </div>
-  )
-}
-```
-
-## Utility Types
-
-### Component Ref Types
-
-Get proper ref types for components:
-
-```tsx
-import { useRef } from 'react'
-import type { ButtonRef, InputRef } from '@ui-lib/ui-react'
-import { Button, Input } from '@ui-lib/ui-react'
-
-function RefExample() {
-  const buttonRef = useRef<ButtonRef>(null)
-  const inputRef = useRef<InputRef>(null)
-  
-  const handleFocusInput = () => {
-    inputRef.current?.focus()  // Type-safe method access
-  }
-  
-  const handleClickButton = () => {
-    buttonRef.current?.click()  // Type-safe method access
-  }
-  
-  return (
-    <div>
-      <Input ref={inputRef} placeholder="Focus me" />
-      <Button ref={buttonRef} onClick={handleFocusInput}>
-        Focus Input
-      </Button>
-    </div>
-  )
-}
-```
-
-### Variant and Size Types
-
-Use exported types for consistent prop values:
-
-```tsx
-import type { 
-  ButtonVariant, 
-  ButtonSize,
-  AlertVariant,
-  InputSize 
-} from '@ui-lib/ui-react'
-
-// Create typed configuration objects
-const buttonConfigs: Array<{
-  variant: ButtonVariant
-  size: ButtonSize
-  label: string
-}> = [
-  { variant: 'primary', size: 'sm', label: 'Small Primary' },
-  { variant: 'secondary', size: 'md', label: 'Medium Secondary' },
-  { variant: 'outline', size: 'lg', label: 'Large Outline' }
-]
-
-// Use in components
-function ButtonShowcase() {
-  return (
-    <div className="space-x-2">
-      {buttonConfigs.map((config, index) => (
-        <Button 
-          key={index}
-          variant={config.variant}  // Fully typed
-          size={config.size}        // Fully typed
-        >
-          {config.label}
-        </Button>
-      ))}
-    </div>
-  )
-}
-```
-
-## Advanced Patterns
-
-### Higher-Order Components
-
-Create typed HOCs for component enhancement:
-
-```tsx
-import type { ComponentType } from 'react'
-import { Card } from '@ui-lib/ui-react'
-
-// Generic HOC with proper typing
-function withCard<T extends object>(
-  Component: ComponentType<T>
-): ComponentType<T & { cardTitle?: string }> {
-  return function WrappedComponent({ cardTitle, ...props }) {
-    return (
-      <Card>
-        {cardTitle && (
-          <Card.Header>
-            <Card.Title>{cardTitle}</Card.Title>
-          </Card.Header>
-        )}
-        <Card.Content>
-          <Component {...(props as T)} />
-        </Card.Content>
-      </Card>
-    )
-  }
-}
-
-// Usage
-interface UserProfileProps {
-  name: string
-  email: string
-}
-
-function UserProfile({ name, email }: UserProfileProps) {
-  return (
-    <div>
-      <h3>{name}</h3>
-      <p>{email}</p>
-    </div>
-  )
-}
-
-const CardUserProfile = withCard(UserProfile)
-
-// Now CardUserProfile accepts both UserProfileProps and cardTitle
-<CardUserProfile 
-  name="John Doe" 
-  email="john@example.com" 
-  cardTitle="User Information" 
-/>
-```
-
-### Render Props Pattern
-
-Implement typed render props:
-
-```tsx
-import type { ReactNode } from 'react'
-
-interface DataFetcherProps<T> {
-  url: string
-  children: (data: T | null, loading: boolean, error: string | null) => ReactNode
-}
-
-function DataFetcher<T>({ url, children }: DataFetcherProps<T>) {
-  const [data, setData] = useState<T | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  
-  useEffect(() => {
-    fetch(url)
-      .then(res => res.json())
-      .then((data: T) => {
-        setData(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        setError(err.message)
-        setLoading(false)
-      })
-  }, [url])
-  
-  return children(data, loading, error)
-}
-
-// Usage with typing
-interface User {
-  id: number
-  name: string
-}
-
-function UserList() {
-  return (
-    <DataFetcher<User[]> url="/api/users">
-      {(users, loading, error) => {
-        // users is typed as User[] | null
-        if (loading) return <div>Loading...</div>
-        if (error) return <div>Error: {error}</div>
-        if (!users) return <div>No data</div>
-        
-        return (
-          <ul>
-            {users.map(user => (
-              <li key={user.id}>{user.name}</li>
-            ))}
-          </ul>
-        )
-      }}
-    </DataFetcher>
-  )
-}
-```
-
-## Configuration
-
-### TypeScript Config Recommendations
-
-For optimal TypeScript experience, use these `tsconfig.json` settings:
+确保您的项目配置支持组件库的类型：
 
 ```json
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["DOM", "DOM.Iterable", "ES6"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": false,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve", // Vue 项目
+    // "jsx": "react-jsx", // React 项目
+    
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": true
+    "noFallthroughCasesInSwitch": true,
+    
+    // 路径映射（可选）
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ui/*": ["./node_modules/@ui-lib/ui-vue/*"]
+    }
   },
   "include": [
-    "src",
-    "node_modules/@ui-lib/*/dist/types/**/*"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
   ]
 }
 ```
 
-### Module Augmentation
+### Vue 项目配置
 
-Extend component props globally:
+对于Vue项目，需要在`env.d.ts`中添加类型声明：
 
-```tsx
-// types/ui-lib.d.ts
-import '@ui-lib/ui-react'
+```typescript
+// env.d.ts
+/// <reference types="vite/client" />
+/// <reference types="@ui-lib/ui-vue" />
 
-declare module '@ui-lib/ui-react' {
-  interface ButtonProps {
-    'data-testid'?: string  // Add test ID to all buttons
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}
+
+// 组件库全局类型扩展
+declare module '@vue/runtime-core' {
+  export interface GlobalProperties {
+    // 如果使用全局注册
+    $message: typeof import('@ui-lib/ui-vue')['message']
+    $modal: typeof import('@ui-lib/ui-vue')['modal']
+  }
+}
+```
+
+### React 项目配置
+
+对于React项目，类型声明会自动生效：
+
+```typescript
+// types/index.ts
+import type { ComponentProps } from 'react'
+import type { Button, Input, Card } from '@ui-lib/ui-react'
+
+// 扩展组件props类型
+export type ButtonProps = ComponentProps<typeof Button>
+export type InputProps = ComponentProps<typeof Input>
+export type CardProps = ComponentProps<typeof Card>
+```
+
+## 组件类型定义
+
+### 基础组件类型
+
+```typescript
+// Button 组件类型
+interface ButtonProps {
+  type?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+  size?: 'sm' | 'md' | 'lg'
+  disabled?: boolean
+  loading?: boolean
+  ghost?: boolean
+  block?: boolean
+  htmlType?: 'button' | 'submit' | 'reset'
+  icon?: string | VNode | (() => VNode)
+  onClick?: (event: MouseEvent) => void
+  onFocus?: (event: FocusEvent) => void
+  onBlur?: (event: FocusEvent) => void
+}
+
+// Input 组件类型  
+interface InputProps {
+  value?: string | number
+  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url'
+  size?: 'sm' | 'md' | 'lg'
+  placeholder?: string
+  disabled?: boolean
+  readonly?: boolean
+  clearable?: boolean
+  maxLength?: number
+  showWordLimit?: boolean
+  prefix?: string | VNode
+  suffix?: string | VNode
+  onChange?: (value: string, event: Event) => void
+  onFocus?: (event: FocusEvent) => void
+  onBlur?: (event: FocusEvent) => void
+  onClear?: () => void
+}
+
+// Form 组件类型
+interface FormProps<T = Record<string, any>> {
+  model?: T
+  rules?: FormRules<T>
+  layout?: 'horizontal' | 'vertical' | 'inline'
+  labelWidth?: string | number
+  labelAlign?: 'left' | 'right'
+  requiredMark?: boolean
+  validateOnRuleChange?: boolean
+  onSubmit?: (values: T) => void
+  onReset?: () => void
+  onValidate?: (valid: boolean, errors: FormErrors) => void
+}
+
+type FormRules<T> = {
+  [K in keyof T]?: FormRule[]
+}
+
+interface FormRule {
+  required?: boolean
+  message?: string
+  pattern?: RegExp
+  min?: number
+  max?: number
+  validator?: (value: any, callback: (error?: Error) => void) => void
+  trigger?: 'blur' | 'change' | Array<'blur' | 'change'>
+}
+```
+
+### 表格组件类型
+
+```typescript
+// Table 组件类型
+interface TableProps<T = any> {
+  columns: TableColumn<T>[]
+  dataSource: T[]
+  rowKey?: string | ((record: T) => string)
+  loading?: boolean
+  pagination?: PaginationProps | false
+  scroll?: { x?: number; y?: number }
+  size?: 'sm' | 'md' | 'lg'
+  bordered?: boolean
+  striped?: boolean
+  hoverable?: boolean
+  onRowClick?: (record: T, index: number) => void
+  onSelectionChange?: (selectedRows: T[], selectedRowKeys: string[]) => void
+}
+
+interface TableColumn<T = any> {
+  key: string
+  title: string
+  dataIndex?: keyof T
+  width?: number | string
+  minWidth?: number
+  fixed?: 'left' | 'right'
+  align?: 'left' | 'center' | 'right'
+  sortable?: boolean
+  filterable?: boolean
+  filters?: Array<{ text: string; value: any }>
+  render?: (value: any, record: T, index: number) => VNode | string
+  customHeaderCell?: (column: TableColumn<T>) => object
+  customCell?: (record: T, index: number) => object
+}
+
+interface PaginationProps {
+  current?: number
+  pageSize?: number
+  total?: number
+  showSizeChanger?: boolean
+  showQuickJumper?: boolean
+  showTotal?: (total: number, range: [number, number]) => string
+  onChange?: (page: number, pageSize: number) => void
+}
+```
+
+## Vue 3 组合式API类型
+
+### 基础用法
+
+```vue
+<template>
+  <div class="user-form">
+    <Form 
+      ref="formRef"
+      :model="formData" 
+      :rules="formRules"
+      @submit="handleSubmit"
+    >
+      <FormItem label="用户名" name="username">
+        <Input 
+          v-model="formData.username"
+          placeholder="请输入用户名"
+          @change="handleUsernameChange"
+        />
+      </FormItem>
+      
+      <FormItem label="邮箱" name="email">
+        <Input 
+          v-model="formData.email"
+          type="email"
+          placeholder="请输入邮箱"
+        />
+      </FormItem>
+      
+      <FormItem>
+        <Button 
+          type="primary" 
+          html-type="submit"
+          :loading="submitting"
+        >
+          提交
+        </Button>
+      </FormItem>
+    </Form>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, reactive, computed } from 'vue'
+import type { FormInstance, FormRules } from '@ui-lib/ui-vue'
+
+// 定义表单数据类型
+interface UserForm {
+  username: string
+  email: string
+  age?: number
+}
+
+// 响应式数据
+const formRef = ref<FormInstance>()
+const submitting = ref(false)
+
+const formData = reactive<UserForm>({
+  username: '',
+  email: '',
+  age: undefined
+})
+
+// 表单验证规则
+const formRules: FormRules<UserForm> = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 2, max: 20, message: '用户名长度在2-20个字符', trigger: 'blur' }
+  ],
+  email: [
+    { required: true, message: '请输入邮箱', trigger: 'blur' },
+    { 
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 
+      message: '请输入有效的邮箱地址', 
+      trigger: 'blur' 
+    }
+  ]
+}
+
+// 计算属性
+const isFormValid = computed(() => {
+  return formData.username.length > 0 && formData.email.length > 0
+})
+
+// 事件处理
+const handleUsernameChange = (value: string) => {
+  console.log('用户名改变:', value)
+}
+
+const handleSubmit = async () => {
+  if (!formRef.value) return
+  
+  try {
+    // 验证表单
+    const valid = await formRef.value.validate()
+    if (!valid) return
+    
+    submitting.value = true
+    
+    // 提交数据
+    await submitUserData(formData)
+    
+    console.log('提交成功:', formData)
+  } catch (error) {
+    console.error('提交失败:', error)
+  } finally {
+    submitting.value = false
+  }
+}
+
+// API 调用
+const submitUserData = async (data: UserForm): Promise<void> => {
+  // 模拟API调用
+  return new Promise((resolve) => {
+    setTimeout(resolve, 1000)
+  })
+}
+
+// 暴露给模板的方法
+defineExpose({
+  resetForm: () => {
+    formRef.value?.resetFields()
+  },
+  validateForm: () => {
+    return formRef.value?.validate()
+  }
+})
+</script>
+```
+
+### 自定义Hooks
+
+```typescript
+// composables/useTable.ts
+import { ref, reactive, computed } from 'vue'
+import type { TableColumn, PaginationProps } from '@ui-lib/ui-vue'
+
+interface UseTableOptions<T> {
+  columns: TableColumn<T>[]
+  fetchData: (params: any) => Promise<{ data: T[]; total: number }>
+  defaultPageSize?: number
+}
+
+export function useTable<T = any>(options: UseTableOptions<T>) {
+  const { columns, fetchData, defaultPageSize = 10 } = options
+  
+  const loading = ref(false)
+  const dataSource = ref<T[]>([])
+  const selectedRows = ref<T[]>([])
+  
+  const pagination = reactive<PaginationProps>({
+    current: 1,
+    pageSize: defaultPageSize,
+    total: 0
+  })
+  
+  // 获取数据
+  const loadData = async (params?: any) => {
+    loading.value = true
+    try {
+      const response = await fetchData({
+        page: pagination.current,
+        pageSize: pagination.pageSize,
+        ...params
+      })
+      
+      dataSource.value = response.data
+      pagination.total = response.total
+    } catch (error) {
+      console.error('获取数据失败:', error)
+    } finally {
+      loading.value = false
+    }
   }
   
-  interface CardProps {
-    elevation?: number      // Add elevation prop to cards
+  // 分页改变
+  const handlePageChange = (page: number, pageSize: number) => {
+    pagination.current = page
+    pagination.pageSize = pageSize
+    loadData()
   }
-}
-
-// Now all Buttons accept data-testid
-<Button data-testid="submit-button" variant="primary">
-  Submit
-</Button>
-```
-
-## Troubleshooting
-
-### Common TypeScript Issues
-
-**1. Missing Props Error**
-```tsx
-// ❌ Error: Property 'children' is missing
-<Button variant="primary" />
-
-// ✅ Fix: Provide required props
-<Button variant="primary">Click me</Button>
-```
-
-**2. Generic Type Inference**
-```tsx
-// ❌ TypeScript can't infer the type
-const options = []  // Type: never[]
-
-// ✅ Explicitly type the array
-const options: Array<{ value: string; label: string }> = []
-```
-
-**3. Event Handler Types**
-```tsx
-// ❌ Implicit any type
-const handleClick = (e) => console.log(e)
-
-// ✅ Explicit event type
-const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-  console.log(e)
-}
-```
-
-### IDE Setup
-
-For the best TypeScript experience:
-
-**VS Code Extensions:**
-- TypeScript Importer
-- Auto Rename Tag
-- Bracket Pair Colorizer
-- Error Lens
-
-**Settings:**
-```json
-{
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.suggest.autoImports": true,
-  "typescript.updateImportsOnFileMove.enabled": "always"
-}
-```
-
-## Best Practices
-
-### 1. Use Strict Mode
-
-Enable strict TypeScript checking:
-
-```json
-{
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitReturns": true
+  
+  // 选择改变
+  const handleSelectionChange = (rows: T[], keys: string[]) => {
+    selectedRows.value = rows
+  }
+  
+  // 刷新数据
+  const refresh = () => {
+    loadData()
+  }
+  
+  // 重置分页
+  const reset = () => {
+    pagination.current = 1
+    loadData()
+  }
+  
+  return {
+    loading: readonly(loading),
+    dataSource: readonly(dataSource),
+    selectedRows: readonly(selectedRows),
+    pagination: readonly(pagination),
+    columns,
+    loadData,
+    handlePageChange,
+    handleSelectionChange,
+    refresh,
+    reset
   }
 }
 ```
 
-### 2. Type Component Props Explicitly
+## React TypeScript 用法
+
+### 函数组件类型
 
 ```tsx
-// ✅ Good: Explicit prop types
-interface UserCardProps {
-  user: User
-  onEdit?: (user: User) => void
-  showActions?: boolean
+import React, { useState, useCallback, useMemo } from 'react'
+import type { FC, ReactNode } from 'react'
+import { Form, FormItem, Input, Button, Table } from '@ui-lib/ui-react'
+import type { FormInstance, TableColumn } from '@ui-lib/ui-react'
+
+// Props 接口定义
+interface UserFormProps {
+  initialValues?: UserFormData
+  onSubmit?: (values: UserFormData) => void
+  onCancel?: () => void
+  loading?: boolean
 }
 
-function UserCard({ user, onEdit, showActions = true }: UserCardProps) {
-  // Component implementation
+interface UserFormData {
+  username: string
+  email: string
+  age?: number
 }
 
-// ❌ Avoid: Inline prop types
-function UserCard({ user, onEdit, showActions = true }: {
-  user: User
-  onEdit?: (user: User) => void  
-  showActions?: boolean
-}) {
-  // Component implementation
-}
-```
-
-### 3. Use Utility Types
-
-Leverage TypeScript utility types:
-
-```tsx
-import type { ButtonProps } from '@ui-lib/ui-react'
-
-// Pick specific props
-type ButtonStyleProps = Pick<ButtonProps, 'variant' | 'size'>
-
-// Omit unwanted props
-type CustomButtonProps = Omit<ButtonProps, 'onClick'> & {
-  onCustomClick: () => void
-}
-
-// Make props optional
-type PartialButtonProps = Partial<ButtonProps>
-```
-
-## Migration from JavaScript
-
-### Step-by-Step Migration
-
-1. **Rename files** from `.js` to `.tsx`
-2. **Add prop interfaces**
-3. **Type event handlers**
-4. **Add generic types** where needed
-
-```tsx
-// Before (JavaScript)
-function UserList({ users, onUserClick }) {
+// 组件定义
+const UserForm: FC<UserFormProps> = ({
+  initialValues,
+  onSubmit,
+  onCancel,
+  loading = false
+}) => {
+  const [formData, setFormData] = useState<UserFormData>(
+    initialValues || { username: '', email: '' }
+  )
+  
+  const [errors, setErrors] = useState<Partial<Record<keyof UserFormData, string>>>({})
+  
+  // 表单验证
+  const validate = useCallback((): boolean => {
+    const newErrors: typeof errors = {}
+    
+    if (!formData.username.trim()) {
+      newErrors.username = '请输入用户名'
+    } else if (formData.username.length < 2) {
+      newErrors.username = '用户名至少2个字符'
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = '请输入邮箱'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = '请输入有效的邮箱地址'
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }, [formData])
+  
+  // 提交处理
+  const handleSubmit = useCallback(() => {
+    if (validate()) {
+      onSubmit?.(formData)
+    }
+  }, [formData, validate, onSubmit])
+  
+  // 字段更新
+  const updateField = useCallback(<K extends keyof UserFormData>(
+    field: K,
+    value: UserFormData[K]
+  ) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+    // 清除错误
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: undefined }))
+    }
+  }, [errors])
+  
   return (
-    <div>
-      {users.map(user => (
-        <Button key={user.id} onClick={() => onUserClick(user)}>
-          {user.name}
+    <Form onSubmit={handleSubmit}>
+      <FormItem 
+        label="用户名" 
+        required
+        error={errors.username}
+      >
+        <Input
+          value={formData.username}
+          onChange={(e) => updateField('username', e.target.value)}
+          placeholder="请输入用户名"
+        />
+      </FormItem>
+      
+      <FormItem 
+        label="邮箱" 
+        required
+        error={errors.email}
+      >
+        <Input
+          type="email"
+          value={formData.email}
+          onChange={(e) => updateField('email', e.target.value)}
+          placeholder="请输入邮箱"
+        />
+      </FormItem>
+      
+      <FormItem label="年龄">
+        <Input
+          type="number"
+          value={formData.age || ''}
+          onChange={(e) => updateField('age', parseInt(e.target.value) || undefined)}
+          placeholder="请输入年龄"
+        />
+      </FormItem>
+      
+      <FormItem>
+        <Button 
+          type="primary" 
+          htmlType="submit"
+          loading={loading}
+        >
+          提交
         </Button>
-      ))}
-    </div>
+        {onCancel && (
+          <Button onClick={onCancel} style={{ marginLeft: 8 }}>
+            取消
+          </Button>
+        )}
+      </FormItem>
+    </Form>
   )
 }
 
-// After (TypeScript)
+export default UserForm
+```
+
+### 自定义Hook类型
+
+```typescript
+// hooks/useApi.ts
+import { useState, useEffect, useCallback } from 'react'
+
+interface ApiResponse<T> {
+  data: T | null
+  loading: boolean
+  error: string | null
+  refetch: () => void
+}
+
+interface ApiOptions {
+  immediate?: boolean
+  onSuccess?: (data: any) => void
+  onError?: (error: Error) => void
+}
+
+export function useApi<T = any>(
+  apiFunction: () => Promise<T>,
+  options: ApiOptions = {}
+): ApiResponse<T> {
+  const { immediate = true, onSuccess, onError } = options
+  
+  const [data, setData] = useState<T | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  
+  const fetchData = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const result = await apiFunction()
+      setData(result)
+      onSuccess?.(result)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+      setError(errorMessage)
+      onError?.(err as Error)
+    } finally {
+      setLoading(false)
+    }
+  }, [apiFunction, onSuccess, onError])
+  
+  useEffect(() => {
+    if (immediate) {
+      fetchData()
+    }
+  }, [immediate, fetchData])
+  
+  return {
+    data,
+    loading,
+    error,
+    refetch: fetchData
+  }
+}
+
+// 使用示例
 interface User {
   id: number
   name: string
+  email: string
 }
 
-interface UserListProps {
-  users: User[]
-  onUserClick: (user: User) => void
-}
-
-function UserList({ users, onUserClick }: UserListProps) {
+function UserList() {
+  const { data: users, loading, error, refetch } = useApi<User[]>(
+    () => fetch('/api/users').then(res => res.json()),
+    {
+      onSuccess: (users) => console.log('获取用户成功:', users.length),
+      onError: (error) => console.error('获取用户失败:', error)
+    }
+  )
+  
+  if (loading) return <div>加载中...</div>
+  if (error) return <div>错误: {error}</div>
+  
   return (
     <div>
-      {users.map(user => (
-        <Button 
-          key={user.id} 
-          onClick={() => onUserClick(user)}
-        >
-          {user.name}
-        </Button>
+      <Button onClick={refetch}>刷新</Button>
+      {users?.map(user => (
+        <div key={user.id}>{user.name}</div>
       ))}
     </div>
   )
 }
 ```
 
-## Resources
+## 类型扩展
 
-- 📘 [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- ⚛️ [React TypeScript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
-- 🎯 [Type Challenges](https://github.com/type-challenges/type-challenges)
-- 🔧 [VS Code TypeScript](https://code.visualstudio.com/docs/languages/typescript)
-</rewritten_file> 
+### 全局类型声明
+
+```typescript
+// types/global.d.ts
+declare global {
+  namespace UI {
+    // 主题类型
+    type Theme = 'light' | 'dark' | 'auto'
+    
+    // 尺寸类型
+    type Size = 'sm' | 'md' | 'lg'
+    
+    // 状态类型
+    type Status = 'success' | 'warning' | 'error' | 'info'
+    
+    // 组件基础Props
+    interface BaseProps {
+      className?: string
+      style?: React.CSSProperties
+      id?: string
+    }
+    
+    // 表单字段类型
+    type FormFieldValue = string | number | boolean | Date | null | undefined
+    
+    // API响应类型
+    interface ApiResponse<T = any> {
+      code: number
+      message: string
+      data: T
+    }
+    
+    // 分页响应类型
+    interface PaginatedResponse<T = any> {
+      list: T[]
+      total: number
+      current: number
+      pageSize: number
+    }
+  }
+}
+
+export {}
+```
+
+### 模块扩展
+
+```typescript
+// types/ui-extensions.d.ts
+import '@ui-lib/ui-vue'
+
+declare module '@ui-lib/ui-vue' {
+  // 扩展Button组件props
+  interface ButtonProps {
+    customProp?: string
+  }
+  
+  // 扩展Form组件方法
+  interface FormInstance {
+    customMethod(): void
+  }
+  
+  // 添加新的组件类型
+  export interface CustomComponentProps {
+    value?: any
+    onChange?: (value: any) => void
+  }
+  
+  export const CustomComponent: Component<CustomComponentProps>
+}
+```
+
+## 开发工具配置
+
+### ESLint 配置
+
+```json
+{
+  "extends": [
+    "@vue/eslint-config-typescript",
+    "@ui-lib/eslint-config"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/prefer-const": "error"
+  }
+}
+```
+
+### Prettier 配置
+
+```json
+{
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 80
+}
+```
+
+### Vite 配置
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import { resolve } from 'path'
+
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+      '@ui': resolve(__dirname, 'node_modules/@ui-lib/ui-vue')
+    }
+  },
+  server: {
+    port: 3000
+  },
+  build: {
+    target: 'es2020'
+  }
+})
+```
+
+通过这些TypeScript配置和类型定义，您可以获得完整的类型检查和智能提示，大大提升开发效率和代码质量！ 

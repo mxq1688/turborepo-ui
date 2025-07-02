@@ -1,46 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 import { Button } from '@ui-lib/ui-react'
-
-// 国际化文本
-const i18nTexts = {
-  en: {
-    title: 'Components/Button',
-    description: 'A versatile button component with multiple variants and sizes for modern web applications.',
-    variant: 'Visual style variant of the button',
-    size: 'Size of the button',
-    disabled: 'Whether the button is disabled',
-    children: 'Button content',
-    examples: {
-      default: 'Button',
-      primary: 'Primary Button',
-      secondary: 'Secondary Button', 
-      outline: 'Outline Button',
-      ghost: 'Ghost Button',
-      small: 'Small Button',
-      large: 'Large Button',
-      disabled: 'Disabled Button'
-    }
-  },
-  zh: {
-    title: '组件/按钮',
-    description: '多功能按钮组件，支持多种变体和尺寸，适用于现代Web应用程序。',
-    variant: '按钮的视觉样式变体',
-    size: '按钮的尺寸',
-    disabled: '是否禁用按钮',
-    children: '按钮内容',
-    examples: {
-      default: '按钮',
-      primary: '主要按钮',
-      secondary: '次要按钮',
-      outline: '描边按钮', 
-      ghost: '幽灵按钮',
-      small: '小按钮',
-      large: '大按钮',
-      disabled: '禁用按钮'
-    }
-  }
-}
+import { getComponentText, getCurrentLanguage } from '../utils/i18n'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -49,13 +10,14 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
     docs: {
       description: {
-        component: i18nTexts.en.description,
+        component: getComponentText('button').description,
       },
       page: () => {
+        const texts = getComponentText('button')
         return `
           <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
             <h1>Button Component</h1>
-            <p>${i18nTexts.en.description}</p>
+            <p>${texts.description}</p>
             
             <h2>When to Use</h2>
             <ul>
@@ -90,7 +52,7 @@ const meta: Meta<typeof Button> = {
     variant: {
       control: { type: 'select' },
       options: ['default', 'primary', 'secondary', 'outline', 'ghost'],
-      description: i18nTexts.en.variant,
+      description: getComponentText('button').variant,
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: 'primary' },
@@ -99,7 +61,7 @@ const meta: Meta<typeof Button> = {
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
-      description: i18nTexts.en.size,
+      description: getComponentText('button').size,
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: 'md' },
@@ -107,7 +69,7 @@ const meta: Meta<typeof Button> = {
     },
     disabled: {
       control: 'boolean',
-      description: i18nTexts.en.disabled,
+      description: getComponentText('button').disabled,
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -115,7 +77,7 @@ const meta: Meta<typeof Button> = {
     },
     children: {
       control: 'text',
-      description: i18nTexts.en.children,
+      description: 'Button content',
       table: {
         type: { summary: 'ReactNode' },
       },
@@ -135,12 +97,12 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    children: i18nTexts.en.examples.default,
+    children: getComponentText('button').examples.default,
   },
   parameters: {
     docs: {
       description: {
-        story: 'The default button style. Use for secondary actions.',
+        story: getComponentText('button').stories.default,
       },
     },
   },
@@ -149,12 +111,12 @@ export const Default: Story = {
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    children: i18nTexts.en.examples.primary,
+    children: getComponentText('button').examples.primary,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Primary buttons for the main action on a page. Should be used sparingly.',
+        story: getComponentText('button').stories.primary,
       },
     },
   },
@@ -163,12 +125,12 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     variant: 'secondary',
-    children: i18nTexts.en.examples.secondary,
+    children: getComponentText('button').examples.secondary,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Secondary buttons for supporting actions.',
+        story: getComponentText('button').stories.secondary,
       },
     },
   },
@@ -177,12 +139,12 @@ export const Secondary: Story = {
 export const Outline: Story = {
   args: {
     variant: 'outline',
-    children: i18nTexts.en.examples.outline,
+    children: getComponentText('button').examples.outline,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Outline buttons for subtle actions that need less emphasis.',
+        story: getComponentText('button').stories.outline,
       },
     },
   },
@@ -191,12 +153,12 @@ export const Outline: Story = {
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
-    children: i18nTexts.en.examples.ghost,
+    children: getComponentText('button').examples.ghost,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Ghost buttons for the most subtle actions.',
+        story: getComponentText('button').stories.ghost,
       },
     },
   },
@@ -205,12 +167,12 @@ export const Ghost: Story = {
 export const Small: Story = {
   args: {
     size: 'sm',
-    children: i18nTexts.en.examples.small,
+    children: getComponentText('button').examples.small,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Small size buttons for compact interfaces.',
+        story: getComponentText('button').stories.small,
       },
     },
   },
@@ -219,12 +181,12 @@ export const Small: Story = {
 export const Large: Story = {
   args: {
     size: 'lg',
-    children: i18nTexts.en.examples.large,
+    children: getComponentText('button').examples.large,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Large size buttons for prominent actions.',
+        story: getComponentText('button').stories.large,
       },
     },
   },
@@ -233,12 +195,12 @@ export const Large: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
-    children: i18nTexts.en.examples.disabled,
+    children: getComponentText('button').examples.disabled,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Disabled state prevents user interaction and indicates the action is unavailable.',
+        story: getComponentText('button').stories.disabled,
       },
     },
   },
@@ -246,8 +208,8 @@ export const Disabled: Story = {
 
 export const AllVariants: Story = {
   render: (args, { globals }) => {
-    const locale = globals.locale || 'en'
-    const texts = i18nTexts[locale as keyof typeof i18nTexts] || i18nTexts.en
+    const locale = globals.locale || 'zh'
+    const texts = getComponentText('button')
     
     return (
       <div className="flex gap-4 flex-wrap">
@@ -270,8 +232,8 @@ export const AllVariants: Story = {
 
 export const AllSizes: Story = {
   render: (args, { globals }) => {
-    const locale = globals.locale || 'en'
-    const texts = i18nTexts[locale as keyof typeof i18nTexts] || i18nTexts.en
+    const locale = globals.locale || 'zh'
+    const texts = getComponentText('button')
     
     return (
       <div className="flex gap-4 items-center">
@@ -292,8 +254,8 @@ export const AllSizes: Story = {
 
 export const InteractiveExample: Story = {
   render: (args, { globals }) => {
-    const locale = globals.locale || 'en'
-    const texts = i18nTexts[locale as keyof typeof i18nTexts] || i18nTexts.en
+    const locale = globals.locale || 'zh'
+    const texts = getComponentText('button')
     
     const [loading, setLoading] = React.useState(false)
     const [count, setCount] = React.useState(0)

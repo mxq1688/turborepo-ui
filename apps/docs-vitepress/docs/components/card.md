@@ -1,206 +1,154 @@
 # Card 卡片
 
-将信息聚合在卡片容器中展示。
+通用卡片容器组件，用于内容分组和信息展示。
 
 ## 基础用法
 
-包含标题、内容和操作。
+最基本的卡片使用方式。
+
+### Vue 示例
 
 ```vue
 <template>
   <Card>
-    <template #header>
+    <CardHeader>
       <CardTitle>卡片标题</CardTitle>
-    </template>
-    
-    <template #default>
-      <p>这里是卡片的内容。卡片可以包含任意内容。</p>
-    </template>
-    
-    <template #footer>
-      <div class="flex justify-end space-x-2">
-        <Button variant="outline">取消</Button>
-        <Button variant="primary">确认</Button>
-      </div>
-    </template>
+    </CardHeader>
+    <CardContent>
+      <p>这是卡片的内容区域，可以放置任何内容。</p>
+    </CardContent>
   </Card>
 </template>
+
+<script setup>
+import { Card, CardHeader, CardTitle, CardContent } from '@ui-lib/ui-vue'
+</script>
 ```
 
-## 简单卡片
+### React 示例
 
-当卡片只包含内容区域。
+```tsx
+import { Card, CardHeader, CardTitle, CardContent } from '@ui-lib/ui-react'
 
-```vue
-<template>
-  <Card>
-    <p>这是一个简单的卡片，只包含内容区域。</p>
-  </Card>
-</template>
-```
-
-## 带描述的卡片
-
-卡片可以只有标题和描述。
-
-```vue
-<template>
-  <Card>
-    <template #header>
-      <CardTitle>特性介绍</CardTitle>
-      <CardDescription>这是卡片的描述信息，用于说明卡片的用途或内容。</CardDescription>
-    </template>
-    
-    <template #default>
-      <ul class="space-y-2">
-        <li>• 响应式设计</li>
-        <li>• 可自定义样式</li>
-        <li>• 支持插槽</li>
-      </ul>
-    </template>
-  </Card>
-</template>
-```
-
-## 带图片的卡片
-
-可以配置图片作为卡片的头部。
-
-```vue
-<template>
-  <Card>
-    <template #header>
-      <img 
-        src="https://via.placeholder.com/400x200" 
-        alt="示例图片"
-        class="w-full h-48 object-cover rounded-t-lg"
-      />
-    </template>
-    
-    <template #default>
-      <CardTitle>图片卡片</CardTitle>
-      <CardDescription>这是一个带有图片的卡片示例。</CardDescription>
-      <p class="mt-4">卡片内容可以包含任意信息，图片会显示在顶部。</p>
-    </template>
-    
-    <template #footer>
-      <Button variant="primary">查看详情</Button>
-    </template>
-  </Card>
-</template>
-```
-
-## 可悬停卡片
-
-鼠标悬停时显示阴影效果。
-
-```vue
-<template>
-  <Card hoverable>
-    <template #header>
-      <CardTitle>悬停效果</CardTitle>
-    </template>
-    
-    <template #default>
-      <p>鼠标悬停在这个卡片上时会显示阴影效果。</p>
-    </template>
-  </Card>
-</template>
-```
-
-## 禁用状态
-
-卡片可以设置为禁用状态。
-
-```vue
-<template>
-  <Card disabled>
-    <template #header>
-      <CardTitle>禁用状态</CardTitle>
-    </template>
-    
-    <template #default>
-      <p>这是一个禁用状态的卡片，通常用于表示不可用的功能。</p>
-    </template>
-    
-    <template #footer>
-      <Button disabled>禁用按钮</Button>
-    </template>
-  </Card>
-</template>
-```
-
-## 不同尺寸
-
-Card 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的卡片尺寸。
-
-```vue
-<template>
-  <div class="space-y-4">
-    <Card size="small">
-      <template #header>
-        <CardTitle>小尺寸卡片</CardTitle>
-      </template>
-      <template #default>
-        <p>这是小尺寸的卡片。</p>
-      </template>
-    </Card>
-    
+function Demo() {
+  return (
     <Card>
-      <template #header>
-        <CardTitle>默认尺寸卡片</CardTitle>
-      </template>
-      <template #default>
-        <p>这是默认尺寸的卡片。</p>
-      </template>
+      <CardHeader>
+        <CardTitle>卡片标题</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>这是卡片的内容区域，可以放置任何内容。</p>
+      </CardContent>
+    </Card>
+  )
+}
+```
+
+## 带阴影的卡片
+
+不同阴影级别的卡片。
+
+```vue
+<template>
+  <div class="demo-container">
+    <Card shadow="none">
+      <CardContent>无阴影</CardContent>
     </Card>
     
-    <Card size="large">
-      <template #header>
-        <CardTitle>大尺寸卡片</CardTitle>
-      </template>
-      <template #default>
-        <p>这是大尺寸的卡片。</p>
-      </template>
+    <Card shadow="sm">
+      <CardContent>小阴影</CardContent>
+    </Card>
+    
+    <Card shadow="md">
+      <CardContent>中等阴影（默认）</CardContent>
+    </Card>
+    
+    <Card shadow="lg">
+      <CardContent>大阴影</CardContent>
     </Card>
   </div>
 </template>
 ```
 
-## 卡片组合
+## 带边框的卡片
 
-多个卡片组合使用。
+可以显示边框的卡片。
+
+```vue
+<template>
+  <div class="demo-container">
+    <Card bordered>
+      <CardContent>带边框的卡片</CardContent>
+    </Card>
+    
+    <Card bordered shadow="none">
+      <CardContent>只有边框，无阴影</CardContent>
+    </Card>
+  </div>
+</template>
+```
+
+## 可悬停的卡片
+
+鼠标悬停时有交互效果的卡片。
+
+```vue
+<template>
+  <div class="demo-container">
+    <Card hoverable>
+      <CardContent>
+        <h3>可悬停卡片</h3>
+        <p>鼠标悬停时会有交互效果</p>
+      </CardContent>
+    </Card>
+  </div>
+</template>
+```
+
+## 完整的卡片示例
+
+包含头部、内容和操作的完整卡片。
+
+```vue
+<template>
+  <Card class="max-w-md">
+    <CardHeader>
+      <CardTitle>产品卡片</CardTitle>
+      <p class="text-sm text-gray-600">这是一个产品介绍卡片</p>
+    </CardHeader>
+    
+    <CardContent>
+      <img 
+        src="/product-image.jpg" 
+        alt="产品图片" 
+        class="w-full h-48 object-cover rounded-md mb-4"
+      />
+      <h3 class="text-lg font-semibold mb-2">产品名称</h3>
+      <p class="text-gray-600 mb-4">这里是产品的详细描述信息，介绍产品的主要功能和特点。</p>
+      <div class="flex justify-between items-center">
+        <span class="text-2xl font-bold text-blue-600">¥299</span>
+        <Button variant="primary">立即购买</Button>
+      </div>
+    </CardContent>
+  </Card>
+</template>
+```
+
+## 网格布局卡片
+
+多个卡片的网格布局展示。
 
 ```vue
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <Card v-for="item in items" :key="item.id" hoverable>
-      <template #header>
+    <Card v-for="item in cards" :key="item.id" hoverable>
+      <CardHeader>
         <CardTitle>{{ item.title }}</CardTitle>
-        <CardDescription>{{ item.description }}</CardDescription>
-      </template>
-      
-      <template #default>
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-500">价格</span>
-            <span class="font-semibold">{{ item.price }}</span>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-500">状态</span>
-            <Badge :variant="item.status === 'active' ? 'success' : 'gray'">
-              {{ item.status }}
-            </Badge>
-          </div>
-        </div>
-      </template>
-      
-      <template #footer>
-        <div class="flex justify-between">
-          <Button variant="outline" size="small">编辑</Button>
-          <Button variant="primary" size="small">查看</Button>
-        </div>
-      </template>
+      </CardHeader>
+      <CardContent>
+        <p>{{ item.description }}</p>
+        <Button class="mt-4" variant="outline">查看详情</Button>
+      </CardContent>
     </Card>
   </div>
 </template>
@@ -208,66 +156,117 @@ Card 组件提供除了默认值以外的三种尺寸，可以在不同场景下
 <script setup>
 import { ref } from 'vue'
 
-const items = ref([
-  {
-    id: 1,
-    title: '产品 A',
-    description: '这是产品 A 的描述信息',
-    price: '¥99',
-    status: 'active'
-  },
-  {
-    id: 2,
-    title: '产品 B',
-    description: '这是产品 B 的描述信息',
-    price: '¥199',
-    status: 'inactive'
-  },
-  {
-    id: 3,
-    title: '产品 C',
-    description: '这是产品 C 的描述信息',
-    price: '¥299',
-    status: 'active'
-  }
+const cards = ref([
+  { id: 1, title: '卡片 1', description: '第一个卡片的描述' },
+  { id: 2, title: '卡片 2', description: '第二个卡片的描述' },
+  { id: 3, title: '卡片 3', description: '第三个卡片的描述' }
 ])
 </script>
 ```
 
-## API
+## 统计卡片
+
+用于数据展示的统计卡片。
+
+```vue
+<template>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <Card v-for="stat in stats" :key="stat.label">
+      <CardContent class="p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">{{ stat.label }}</p>
+            <p class="text-3xl font-bold">{{ stat.value }}</p>
+          </div>
+          <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+            <Icon :name="stat.icon" class="h-6 w-6 text-blue-600" />
+          </div>
+        </div>
+        <div class="mt-4 flex items-center">
+          <span :class="stat.trend > 0 ? 'text-green-600' : 'text-red-600'" class="text-sm font-medium">
+            {{ stat.trend > 0 ? '+' : '' }}{{ stat.trend }}%
+          </span>
+          <span class="text-sm text-gray-600 ml-2">较上周</span>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+</template>
+
+<script setup>
+const stats = ref([
+  { label: '总用户', value: '12,345', icon: 'users', trend: 12.5 },
+  { label: '总订单', value: '8,567', icon: 'shopping-cart', trend: -2.3 },
+  { label: '总收入', value: '¥123,456', icon: 'dollar-sign', trend: 8.7 },
+  { label: '转化率', value: '3.4%', icon: 'trending-up', trend: 5.2 }
+])
+</script>
+```
+
+## API 参数
 
 ### Card Props
 
-| 属性 | 说明 | 类型 | 可选值 | 默认值 |
-|------|------|------|--------|--------|
-| size | 卡片尺寸 | string | small / default / large | default |
-| hoverable | 鼠标悬停时是否显示阴影 | boolean | — | false |
-| disabled | 是否禁用 | boolean | — | false |
-| bordered | 是否显示边框 | boolean | — | true |
-| shadow | 阴影效果 | string | always / hover / never | never |
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| shadow | 阴影大小 | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` |
+| bordered | 是否显示边框 | `boolean` | `false` |
+| hoverable | 是否可悬停 | `boolean` | `false` |
+| padding | 内边距大小 | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` |
 
-### Card Slots
+### CardHeader Props
 
-| 插槽名 | 说明 |
-|--------|------|
-| header | 卡片头部内容 |
-| default | 卡片主体内容 |
-| footer | 卡片底部内容 |
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| class | 自定义CSS类名 | `string` | - |
 
 ### CardTitle Props
 
-| 属性 | 说明 | 类型 | 可选值 | 默认值 |
-|------|------|------|--------|--------|
-| level | 标题级别 | number | 1-6 | 3 |
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| level | 标题级别 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `3` |
 
-### CardDescription Props
+### CardContent Props
 
-| 属性 | 说明 | 类型 | 可选值 | 默认值 |
-|------|------|------|--------|--------|
-| — | — | — | — | — |
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|--------|
+| class | 自定义CSS类名 | `string` | - |
 
-### Card Methods
+### Events
 
-| 方法名 | 说明 | 参数 |
-|--------|------|------|
-| — | — | — | 
+| 事件名 | 说明 | 回调参数 |
+|--------|------|----------|
+| click | 卡片点击事件 | `(event: MouseEvent)` |
+
+### Slots
+
+| 插槽名 | 说明 |
+|--------|------|
+| default | 卡片内容 |
+| header | 卡片头部 |
+| footer | 卡片底部 |
+
+## 主题定制
+
+可以通过 CSS 变量自定义样式：
+
+```css
+.ui-card {
+  --card-background: #ffffff;
+  --card-border-radius: 8px;
+  --card-border-color: #e5e7eb;
+  --card-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --card-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --card-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --card-padding-sm: 12px;
+  --card-padding-md: 16px;
+  --card-padding-lg: 24px;
+}
+```
+
+## 无障碍访问
+
+- 支持键盘导航
+- 可点击的卡片提供适当的焦点状态
+- 支持屏幕阅读器
+- 语义化的HTML结构 

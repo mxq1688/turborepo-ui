@@ -1,44 +1,8 @@
-import { Meta } from '@storybook/blocks'
+import { Meta, Story, Canvas } from '@storybook/addon-docs'
+import { IntroductionContent } from './Introduction'
 
-<Meta title="Welcome/Introduction" />
+<Meta title="Introduction" />
 
-# UI Component Library
-
-Welcome to our comprehensive UI Component Library documentation powered by Storybook!
-
-## Features
-
-- **React & Vue Support**: Components available for both React and Vue 3
-- **TypeScript**: Full TypeScript support with type definitions
-- **Modern Design**: Clean, modern components built with Tailwind CSS
-- **Responsive**: Mobile-first responsive design
-- **Accessible**: Built with accessibility best practices
-- **Customizable**: Easy to theme and customize
-
-## What's Included
-
-Our library includes a comprehensive set of components for building modern web applications.
-
-## Getting Started
-
-### Installation
-
-```bash
-# For React
-npm install @ui-lib/ui-react
-
-# For Vue
-npm install @ui-lib/ui-vue
-```
-
-### Usage
-
-```jsx
-import { Button } from '@ui-lib/ui-react'
-
-function App() {
-  return <Button variant="primary">Hello World</Button>
-}
-```
-
-Happy coding! 
+<Story name="Introduction">
+  {(args, { globals: { locale } }) => <IntroductionContent locale={locale} />}
+</Story> 

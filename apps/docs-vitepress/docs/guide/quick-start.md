@@ -1,585 +1,473 @@
-# Quick Start
+# 快速上手
 
-Get up and running with the UI Component Library in just a few minutes.
+本指南将帮助您在几分钟内开始使用UI组件库。
 
-## Prerequisites
+## 前置条件
 
-Make sure you have completed the [Installation](/guide/installation) step before proceeding.
+确保您的开发环境满足以下要求：
 
-## Your First Component
+- **Node.js** 16.0.0 或更高版本
+- **npm** 或 **yarn** 或 **pnpm** 包管理器
+- **Vue 3.2+** 或 **React 18+** 项目
 
-Let's create a simple application using our components:
+## 创建新项目
 
-::: code-group
+如果您还没有项目，可以快速创建一个：
 
-```tsx [React]
-// src/App.tsx
-import React, { useState } from 'react'
-import { 
-  Button, 
-  Card, 
-  Input, 
-  Alert,
-  ThemeProvider 
-} from '@ui-lib/ui-react'
-import '@ui-lib/ui-react/dist/index.css'
+### Vue 项目
+
+```bash
+# 使用 create-vue
+npm create vue@latest my-vue-app
+cd my-vue-app
+npm install
+
+# 或使用 Vite
+npm create vite@latest my-vue-app -- --template vue-ts
+cd my-vue-app
+npm install
+```
+
+### React 项目
+
+```bash
+# 使用 create-react-app
+npx create-react-app my-react-app --template typescript
+cd my-react-app
+
+# 或使用 Vite
+npm create vite@latest my-react-app -- --template react-ts
+cd my-react-app
+npm install
+```
+
+## 安装组件库
+
+选择对应的框架版本进行安装：
+
+```bash
+# Vue 版本
+npm install @ui-lib/ui-vue
+
+# React 版本
+npm install @ui-lib/ui-react
+
+# 如果需要使用图标
+npm install @ui-lib/icons
+```
+
+## 基础配置
+
+### Vue 配置
+
+#### 1. 全局注册（推荐用于小型项目）
+
+```typescript
+// main.ts
+import { createApp } from 'vue'
+import UILibVue from '@ui-lib/ui-vue'
+import '@ui-lib/ui-vue/dist/style.css'
+import App from './App.vue'
+
+const app = createApp(App)
+app.use(UILibVue)
+app.mount('#app')
+```
+
+#### 2. 按需引入（推荐用于大型项目）
+
+```vue
+<!-- App.vue -->
+<template>
+  <div class="app">
+    <Button type="primary" @click="handleClick">
+      点击我
+    </Button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { Button } from '@ui-lib/ui-vue'
+import '@ui-lib/ui-vue/dist/style.css'
+
+const handleClick = () => {
+  console.log('Button clicked!')
+}
+</script>
+```
+
+### React 配置
+
+#### 1. 基础使用
+
+```tsx
+// App.tsx
+import React from 'react'
+import { Button } from '@ui-lib/ui-react'
+import '@ui-lib/ui-react/dist/style.css'
 
 function App() {
-  const [name, setName] = useState('')
-  const [showAlert, setShowAlert] = useState(false)
-
-  const handleSubmit = () => {
-    if (name.trim()) {
-      setShowAlert(true)
-      setTimeout(() => setShowAlert(false), 3000)
-    }
+  const handleClick = () => {
+    console.log('Button clicked!')
   }
 
   return (
-    <ThemeProvider theme="light">
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-md mx-auto">
-          <Card className="p-6">
-            <h1 className="text-2xl font-bold mb-6 text-center">
-              Welcome to UI Library
-            </h1>
-            
-            {showAlert && (
-              <Alert variant="success" className="mb-4">
-                Hello, {name}! Welcome to our component library! 🎉
-              </Alert>
-            )}
-            
-            <div className="space-y-4">
-              <Input
-                label="Your Name"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              
-              <Button 
-                variant="primary" 
-                onClick={handleSubmit}
-                disabled={!name.trim()}
-                className="w-full"
-              >
-                Say Hello
-              </Button>
-            </div>
-          </Card>
-        </div>
-      </div>
-    </ThemeProvider>
+    <div className="app">
+      <Button type="primary" onClick={handleClick}>
+        点击我
+      </Button>
+    </div>
   )
 }
 
 export default App
 ```
 
-```vue [Vue]
-<!-- src/App.vue -->
+#### 2. 提供者配置
+
+```tsx
+// main.tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { ConfigProvider } from '@ui-lib/ui-react'
+import '@ui-lib/ui-react/dist/style.css'
+import App from './App'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <ConfigProvider>
+    <App />
+  </ConfigProvider>
+)
+```
+
+## 第一个示例
+
+让我们创建一个简单的用户信息表单：
+
+### Vue 示例
+
+```vue
 <template>
-  <ThemeProvider theme="light">
-    <div class="min-h-screen bg-gray-50 p-8">
-      <div class="max-w-md mx-auto">
-        <Card class="p-6">
-          <h1 class="text-2xl font-bold mb-6 text-center">
-            Welcome to UI Library
-          </h1>
-          
-          <Alert 
-            v-if="showAlert" 
-            variant="success" 
-            class="mb-4"
-          >
-            Hello, {{ name }}! Welcome to our component library! 🎉
-          </Alert>
-          
-          <div class="space-y-4">
-            <Input
-              v-model="name"
-              label="Your Name"
-              placeholder="Enter your name"
+  <div class="demo-page">
+    <Card class="user-form">
+      <CardHeader>
+        <CardTitle>用户信息</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form @submit="handleSubmit" :model="formData">
+          <FormItem label="姓名" required>
+            <Input 
+              v-model="formData.name" 
+              placeholder="请输入姓名"
             />
-            
-            <Button 
-              variant="primary" 
-              @click="handleSubmit"
-              :disabled="!name.trim()"
-              class="w-full"
-            >
-              Say Hello
+          </FormItem>
+          
+          <FormItem label="邮箱" required>
+            <Input 
+              v-model="formData.email" 
+              type="email"
+              placeholder="请输入邮箱"
+            />
+          </FormItem>
+          
+          <FormItem label="性别">
+            <RadioGroup v-model="formData.gender">
+              <Radio value="male">男</Radio>
+              <Radio value="female">女</Radio>
+            </RadioGroup>
+          </FormItem>
+          
+          <FormItem label="爱好">
+            <CheckboxGroup v-model="formData.hobbies">
+              <Checkbox value="reading">阅读</Checkbox>
+              <Checkbox value="music">音乐</Checkbox>
+              <Checkbox value="sports">运动</Checkbox>
+            </CheckboxGroup>
+          </FormItem>
+          
+          <FormItem>
+            <Button type="primary" html-type="submit">
+              提交
             </Button>
-          </div>
-        </Card>
-      </div>
-    </div>
-  </ThemeProvider>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-import { 
-  Button, 
-  Card, 
-  Input, 
-  Alert, 
-  ThemeProvider 
-} from '@ui-lib/ui-vue'
-import '@ui-lib/ui-vue/dist/index.css'
-
-const name = ref('')
-const showAlert = ref(false)
-
-const handleSubmit = () => {
-  if (name.value.trim()) {
-    showAlert.value = true
-    setTimeout(() => {
-      showAlert.value = false
-    }, 3000)
-  }
-}
-</script>
-```
-
-:::
-
-## Core Concepts
-
-### Component Variants
-
-Most components support different visual styles through the `variant` prop:
-
-```tsx
-// Different button variants
-<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="outline">Outline</Button>
-<Button variant="ghost">Ghost</Button>
-
-// Different alert variants
-<Alert variant="info">Information</Alert>
-<Alert variant="success">Success</Alert>
-<Alert variant="warning">Warning</Alert>
-<Alert variant="error">Error</Alert>
-```
-
-### Component Sizes
-
-Components support consistent sizing through the `size` prop:
-
-```tsx
-// Button sizes
-<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
-
-// Input sizes
-<Input size="sm" placeholder="Small input" />
-<Input size="md" placeholder="Medium input" />
-<Input size="lg" placeholder="Large input" />
-```
-
-### Theme Integration
-
-Use the `ThemeProvider` to apply consistent theming across your application:
-
-::: code-group
-
-```tsx [React]
-import { ThemeProvider } from '@ui-lib/ui-react'
-
-function App() {
-  return (
-    <ThemeProvider theme="dark">
-      {/* Your app content */}
-    </ThemeProvider>
-  )
-}
-```
-
-```vue [Vue]
-<template>
-  <ThemeProvider theme="dark">
-    <!-- Your app content -->
-  </ThemeProvider>
-</template>
-```
-
-:::
-
-## Common Patterns
-
-### Form Building
-
-Create forms quickly with our form components:
-
-::: code-group
-
-```tsx [React]
-import { useState } from 'react'
-import { Card, Input, Button, Checkbox, Select } from '@ui-lib/ui-react'
-
-function ContactForm() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    company: '',
-    newsletter: false
-  })
-
-  return (
-    <Card className="p-6 max-w-md">
-      <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
-      
-      <div className="space-y-4">
-        <Input
-          label="Full Name"
-          value={form.name}
-          onChange={(e) => setForm({...form, name: e.target.value})}
-          required
-        />
-        
-        <Input
-          type="email"
-          label="Email Address"
-          value={form.email}
-          onChange={(e) => setForm({...form, email: e.target.value})}
-          required
-        />
-        
-        <Select
-          label="Company Size"
-          value={form.company}
-          onChange={(value) => setForm({...form, company: value})}
-          options={[
-            { value: 'startup', label: '1-10 employees' },
-            { value: 'small', label: '11-50 employees' },
-            { value: 'medium', label: '51-200 employees' },
-            { value: 'large', label: '200+ employees' }
-          ]}
-        />
-        
-        <Checkbox
-          checked={form.newsletter}
-          onChange={(checked) => setForm({...form, newsletter: checked})}
-        >
-          Subscribe to newsletter
-        </Checkbox>
-        
-        <Button variant="primary" className="w-full">
-          Submit
-        </Button>
-      </div>
+            <Button @click="handleReset" style="margin-left: 8px">
+              重置
+            </Button>
+          </FormItem>
+        </Form>
+      </CardContent>
     </Card>
-  )
-}
-```
-
-```vue [Vue]
-<template>
-  <Card class="p-6 max-w-md">
-    <h2 class="text-xl font-semibold mb-4">Contact Information</h2>
     
-    <div class="space-y-4">
-      <Input
-        v-model="form.name"
-        label="Full Name"
-        required
-      />
-      
-      <Input
-        v-model="form.email"
-        type="email"
-        label="Email Address"
-        required
-      />
-      
-      <Select
-        v-model="form.company"
-        label="Company Size"
-        :options="companyOptions"
-      />
-      
-      <Checkbox v-model="form.newsletter">
-        Subscribe to newsletter
-      </Checkbox>
-      
-      <Button variant="primary" class="w-full">
-        Submit
-      </Button>
-    </div>
-  </Card>
+    <!-- 显示结果 -->
+    <Card v-if="submitResult" class="result-card">
+      <CardHeader>
+        <CardTitle>提交结果</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Alert type="success">
+          表单提交成功！
+        </Alert>
+        <pre>{{ JSON.stringify(submitResult, null, 2) }}</pre>
+      </CardContent>
+    </Card>
+  </div>
 </template>
 
-<script setup>
-import { reactive } from 'vue'
-import { Card, Input, Button, Checkbox, Select } from '@ui-lib/ui-vue'
+<script setup lang="ts">
+import { ref } from 'vue'
+import {
+  Card, CardHeader, CardTitle, CardContent,
+  Form, FormItem, Input, Button,
+  Radio, RadioGroup, Checkbox, CheckboxGroup,
+  Alert
+} from '@ui-lib/ui-vue'
 
-const form = reactive({
+const formData = ref({
   name: '',
   email: '',
-  company: '',
-  newsletter: false
+  gender: '',
+  hobbies: []
 })
 
-const companyOptions = [
-  { value: 'startup', label: '1-10 employees' },
-  { value: 'small', label: '11-50 employees' },
-  { value: 'medium', label: '51-200 employees' },
-  { value: 'large', label: '200+ employees' }
-]
-</script>
-```
+const submitResult = ref(null)
 
-:::
-
-### Data Display
-
-Display data elegantly with cards and tables:
-
-```tsx
-import { Card, Badge, Avatar, Button } from '@ui-lib/ui-react'
-
-function UserCard({ user }) {
-  return (
-    <Card className="p-4">
-      <div className="flex items-center space-x-3">
-        <Avatar src={user.avatar} alt={user.name} />
-        <div className="flex-1">
-          <h3 className="font-semibold">{user.name}</h3>
-          <p className="text-gray-600">{user.email}</p>
-        </div>
-        <Badge variant={user.status === 'active' ? 'success' : 'gray'}>
-          {user.status}
-        </Badge>
-      </div>
-      
-      <div className="mt-4 flex space-x-2">
-        <Button size="sm" variant="outline">View</Button>
-        <Button size="sm" variant="outline">Edit</Button>
-      </div>
-    </Card>
-  )
+const handleSubmit = () => {
+  submitResult.value = { ...formData.value }
+  console.log('提交数据:', submitResult.value)
 }
-```
 
-### Layout Components
-
-Structure your pages with flexible layout components:
-
-```tsx
-import { Card, Grid, Stack } from '@ui-lib/ui-react'
-
-function Dashboard() {
-  return (
-    <div className="p-6">
-      <Grid cols={3} gap="4" className="mb-6">
-        <Card className="p-4">
-          <h3 className="font-semibold mb-2">Total Users</h3>
-          <p className="text-3xl font-bold text-blue-600">1,234</p>
-        </Card>
-        <Card className="p-4">
-          <h3 className="font-semibold mb-2">Revenue</h3>
-          <p className="text-3xl font-bold text-green-600">$12,345</p>
-        </Card>
-        <Card className="p-4">
-          <h3 className="font-semibold mb-2">Orders</h3>
-          <p className="text-3xl font-bold text-purple-600">567</p>
-        </Card>
-      </Grid>
-      
-      <Stack space="4">
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
-          {/* Activity content */}
-        </Card>
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Analytics</h2>
-          {/* Analytics content */}
-        </Card>
-      </Stack>
-    </div>
-  )
-}
-```
-
-## Internationalization
-
-Add multi-language support to your application:
-
-::: code-group
-
-```tsx [React]
-import { I18nProvider, useI18n } from '@ui-lib/ui-react'
-
-const messages = {
-  en: {
-    welcome: 'Welcome',
-    hello: 'Hello, {name}!',
-    buttons: {
-      submit: 'Submit',
-      cancel: 'Cancel'
-    }
-  },
-  zh: {
-    welcome: '欢迎',
-    hello: '你好，{name}！',
-    buttons: {
-      submit: '提交',
-      cancel: '取消'
-    }
+const handleReset = () => {
+  formData.value = {
+    name: '',
+    email: '',
+    gender: '',
+    hobbies: []
   }
+  submitResult.value = null
+}
+</script>
+
+<style scoped>
+.demo-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-form {
+  width: 100%;
+}
+
+.result-card {
+  width: 100%;
+}
+
+pre {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+</style>
+```
+
+### React 示例
+
+```tsx
+import React, { useState } from 'react'
+import {
+  Card, CardHeader, CardTitle, CardContent,
+  Form, FormItem, Input, Button,
+  Radio, RadioGroup, Checkbox, CheckboxGroup,
+  Alert
+} from '@ui-lib/ui-react'
+
+interface FormData {
+  name: string
+  email: string
+  gender: string
+  hobbies: string[]
 }
 
 function App() {
-  return (
-    <I18nProvider locale="en" messages={messages}>
-      <MyComponent />
-    </I18nProvider>
-  )
-}
-
-function MyComponent() {
-  const { t, locale, setLocale } = useI18n()
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    gender: '',
+    hobbies: []
+  })
   
+  const [submitResult, setSubmitResult] = useState<FormData | null>(null)
+
+  const handleSubmit = () => {
+    setSubmitResult({ ...formData })
+    console.log('提交数据:', formData)
+  }
+
+  const handleReset = () => {
+    setFormData({
+      name: '',
+      email: '',
+      gender: '',
+      hobbies: []
+    })
+    setSubmitResult(null)
+  }
+
+  const updateField = (field: keyof FormData, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
   return (
-    <div>
-      <h1>{t('welcome')}</h1>
-      <p>{t('hello', { name: 'John' })}</p>
-      <Button onClick={() => setLocale(locale === 'en' ? 'zh' : 'en')}>
-        Switch Language
-      </Button>
+    <div className="demo-page">
+      <Card className="user-form">
+        <CardHeader>
+          <CardTitle>用户信息</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form onSubmit={handleSubmit}>
+            <FormItem label="姓名" required>
+              <Input 
+                value={formData.name}
+                onChange={(e) => updateField('name', e.target.value)}
+                placeholder="请输入姓名"
+              />
+            </FormItem>
+            
+            <FormItem label="邮箱" required>
+              <Input 
+                value={formData.email}
+                onChange={(e) => updateField('email', e.target.value)}
+                type="email"
+                placeholder="请输入邮箱"
+              />
+            </FormItem>
+            
+            <FormItem label="性别">
+              <RadioGroup 
+                value={formData.gender}
+                onChange={(value) => updateField('gender', value)}
+              >
+                <Radio value="male">男</Radio>
+                <Radio value="female">女</Radio>
+              </RadioGroup>
+            </FormItem>
+            
+            <FormItem label="爱好">
+              <CheckboxGroup 
+                value={formData.hobbies}
+                onChange={(value) => updateField('hobbies', value)}
+              >
+                <Checkbox value="reading">阅读</Checkbox>
+                <Checkbox value="music">音乐</Checkbox>
+                <Checkbox value="sports">运动</Checkbox>
+              </CheckboxGroup>
+            </FormItem>
+            
+            <FormItem>
+              <Button type="primary" htmlType="submit">
+                提交
+              </Button>
+              <Button onClick={handleReset} style={{ marginLeft: 8 }}>
+                重置
+              </Button>
+            </FormItem>
+          </Form>
+        </CardContent>
+      </Card>
+      
+      {/* 显示结果 */}
+      {submitResult && (
+        <Card className="result-card">
+          <CardHeader>
+            <CardTitle>提交结果</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Alert type="success">
+              表单提交成功！
+            </Alert>
+            <pre>{JSON.stringify(submitResult, null, 2)}</pre>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }
+
+export default App
 ```
 
-```vue [Vue]
-<template>
-  <I18nProvider :locale="locale" :messages="messages">
-    <MyComponent />
-  </I18nProvider>
-</template>
+## 样式定制
 
-<script setup>
-import { ref } from 'vue'
-import { I18nProvider } from '@ui-lib/ui-vue'
+### CSS 变量
 
-const locale = ref('en')
-const messages = {
-  en: {
-    welcome: 'Welcome',
-    hello: 'Hello, {name}!',
-    buttons: { submit: 'Submit', cancel: 'Cancel' }
-  },
-  zh: {
-    welcome: '欢迎', 
-    hello: '你好，{name}！',
-    buttons: { submit: '提交', cancel: '取消' }
-  }
+您可以通过CSS变量快速定制主题：
+
+```css
+/* 在您的全局样式文件中 */
+:root {
+  --primary-color: #1890ff;
+  --success-color: #52c41a;
+  --warning-color: #faad14;
+  --error-color: #ff4d4f;
+  
+  --border-radius: 6px;
+  --font-size-base: 14px;
+  --line-height-base: 1.5;
 }
-</script>
 ```
 
-:::
+### 深色模式
 
-## Best Practices
-
-### 1. Component Composition
-
-Build complex UIs by composing simple components:
-
-```tsx
-// ✅ Good: Compose simple components
-<Card>
-  <Card.Header>
-    <Card.Title>User Profile</Card.Title>
-    <Card.Description>Manage your account settings</Card.Description>
-  </Card.Header>
-  <Card.Content>
-    <Avatar src={user.avatar} />
-    <Input label="Name" value={user.name} />
-  </Card.Content>
-  <Card.Footer>
-    <Button variant="primary">Save</Button>
-    <Button variant="outline">Cancel</Button>
-  </Card.Footer>
-</Card>
-
-// ❌ Avoid: Monolithic components with too many props
-<UserProfileCard 
-  title="User Profile"
-  description="Manage your account settings"
-  avatarSrc={user.avatar}
-  userName={user.name}
-  showSaveButton={true}
-  showCancelButton={true}
-  onSave={handleSave}
-  onCancel={handleCancel}
-/>
+```css
+[data-theme="dark"] {
+  --bg-color: #141414;
+  --text-color: #ffffff;
+  --border-color: #434343;
+}
 ```
 
-### 2. Consistent Spacing
+## 按需加载
 
-Use our spacing system for consistent layouts:
+为了减少包体积，建议使用按需加载：
 
-```tsx
-// Use consistent spacing classes
-<div className="space-y-4">  {/* Vertical spacing */}
-  <Card className="p-6">     {/* Padding */}
-    <div className="mb-4">   {/* Margin bottom */}
-      <h2>Title</h2>
-    </div>
-    <div className="flex gap-2"> {/* Flex gap */}
-      <Button>Action</Button>
-      <Button>Cancel</Button>
-    </div>
-  </Card>
-</div>
+### Vue 按需加载
+
+```typescript
+// 手动按需引入
+import { Button, Input, Card } from '@ui-lib/ui-vue'
+import '@ui-lib/ui-vue/dist/components/button.css'
+import '@ui-lib/ui-vue/dist/components/input.css'
+import '@ui-lib/ui-vue/dist/components/card.css'
 ```
 
-### 3. Accessibility
+### React 按需加载
 
-Our components are built with accessibility in mind, but remember to:
-
-```tsx
-// Add proper labels and descriptions
-<Input 
-  label="Email Address"
-  placeholder="Enter your email"
-  aria-describedby="email-help"
-  required
-/>
-<div id="email-help" className="text-sm text-gray-600">
-  We'll never share your email with anyone else.
-</div>
-
-// Use semantic HTML
-<Button 
-  variant="primary" 
-  aria-label="Save changes to user profile"
->
-  Save
-</Button>
+```typescript
+// 手动按需引入
+import { Button, Input, Card } from '@ui-lib/ui-react'
+import '@ui-lib/ui-react/dist/components/button.css'
+import '@ui-lib/ui-react/dist/components/input.css'
+import '@ui-lib/ui-react/dist/components/card.css'
 ```
 
-## Next Steps
+## 下一步
 
-Now that you're familiar with the basics, explore these advanced topics:
+恭喜！您已经成功设置了UI组件库。接下来可以：
 
-- 🎨 [Theme Customization](/guide/theming) - Customize colors, fonts, and spacing
-- 🔧 [Component Customization](/guide/customization) - Extend and customize components
-- 📱 [Responsive Design](/guide/responsive) - Build mobile-first applications
-- 🚀 [Performance Optimization](/guide/performance) - Optimize your application
-- 🧪 [Testing](/guide/testing) - Test your components effectively
+1. 📚 浏览[组件文档](/components/)了解所有可用组件
+2. 🎨 阅读[主题定制](/guide/theming)学习样式定制
+3. 🔧 查看[TypeScript指南](/guide/typescript)获得更好的开发体验
+4. ❓ 遇到问题可以查看[常见问题](/guide/faq)
 
-## Examples
+## 完整示例项目
 
-Check out our example applications:
+您可以在GitHub上查看完整的示例项目：
 
-- [📋 Todo App](https://github.com/ui-lib/examples/tree/main/todo-app) - Simple task management
-- 🏪 [E-commerce Dashboard](https://github.com/ui-lib/examples/tree/main/ecommerce) - Admin dashboard
-- 📊 [Analytics Dashboard](https://github.com/ui-lib/examples/tree/main/analytics) - Data visualization
-- 📝 [Blog Platform](https://github.com/ui-lib/examples/tree/main/blog) - Content management 
+- [Vue示例项目](https://github.com/your-username/turborepo-ui/tree/main/apps/docs-vue)
+- [React示例项目](https://github.com/your-username/turborepo-ui/tree/main/demo-app)
+
+这些示例项目展示了如何在实际项目中使用组件库的最佳实践。 
