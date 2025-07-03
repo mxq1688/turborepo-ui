@@ -27,8 +27,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "@ui-lib/ui-react": "^0.0.0"
-  }
+  ]
 }

@@ -10,6 +10,8 @@ interface DatePickerProps {
   className?: string;
 }
 
+export type { DatePickerProps };
+
 export function DatePicker({
   value,
   onChange,

@@ -14,6 +14,8 @@ interface UploadFile {
   originFileObj?: File;
 }
 
+export type { UploadFile };
+
 interface UploadProps {
   accept?: string;
   multiple?: boolean;
@@ -28,6 +30,8 @@ interface UploadProps {
   onPreview?: (file: UploadFile) => void;
   className?: string;
 }
+
+export type { UploadProps };
 
 export function Upload({
   accept = '*',

@@ -1,3 +1,5 @@
+import './styles.css';
+
 export { Button } from './components/Button';
 export { Card, CardHeader, CardTitle, CardContent } from './components/Card';
 export { Input } from './components/Input';
@@ -35,6 +37,8 @@ export type { LoadingProps, FullscreenLoadingProps } from './components/Loading'
 export type { TabsProps, Tab, TabPanelProps } from './components/Tabs';
 export type { TableProps, TableColumn } from './components/Table';
 export type { FormProps, FormItemProps, FormRule } from './components/Form';
+export type { DatePickerProps } from './components/DatePicker';
+export type { UploadProps } from './components/Upload';
 
 // 导出主题和国际化类型
 export type { LocaleMessages, I18nConfig } from './hooks/useI18n';

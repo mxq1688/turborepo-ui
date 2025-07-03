@@ -1,6 +1,6 @@
 <template>
   <span :class="[
-    'inline-flex items-center rounded-full text-xs font-medium',
+    'inline-flex items-center rounded-full font-medium',
     sizeClasses[size],
     variantClasses[variant]
   ]">
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { styleUtils } from '@ui-lib/shared'
 
 interface Props {
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info'
@@ -29,11 +30,11 @@ const sizeClasses = computed(() => ({
 
 const variantClasses = computed(() => ({
   default: 'bg-gray-100 text-gray-800',
-  primary: 'bg-blue-100 text-blue-800',
-  success: 'bg-green-100 text-green-800',
-  warning: 'bg-yellow-100 text-yellow-800',
-  danger: 'bg-red-100 text-red-800',
-  info: 'bg-cyan-100 text-cyan-800'
+  primary: styleUtils.badge.variants.primary,
+  success: styleUtils.badge.variants.success,
+  warning: styleUtils.badge.variants.warning,
+  danger: styleUtils.badge.variants.error,
+  info: styleUtils.badge.variants.info
 }))
 </script>
 
